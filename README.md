@@ -1,7 +1,7 @@
 This repository contains the Ultibo edition of the Lazarus IDE.
 
 Based originally on Lazarus 1.6RC1 with changes to support the Ultibo target
-and remove unwated items which are not relevant to building applications with
+and remove unwanted items which are not relevant to building applications with
 Ultibo core.
 
 To build the IDE from source the process is the same as the Lazarus documentation
