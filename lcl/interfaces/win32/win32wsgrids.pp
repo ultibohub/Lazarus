@@ -1,0 +1,68 @@
+{ $Id: win32wsgrids.pp 50515 2015-11-27 18:19:40Z bart $}
+{
+ *****************************************************************************
+ *                              Win32WSGrids.pp                              * 
+ *                              ---------------                              * 
+ *                                                                           *
+ *                                                                           *
+ *****************************************************************************
+
+ *****************************************************************************
+  This file is part of the Lazarus Component Library (LCL)
+
+  See the file COPYING.modifiedLGPL.txt, included in this distribution,
+  for details about the license.
+ *****************************************************************************
+}
+unit Win32WSGrids;
+
+{$mode objfpc}{$H+}
+
+{$I win32defines.inc}
+
+interface
+
+uses
+////////////////////////////////////////////////////
+// I M P O R T A N T                                
+////////////////////////////////////////////////////
+// To get as little as posible circles,
+// uncomment only when needed for registration
+////////////////////////////////////////////////////
+  Windows, LCLType, LazUTF8, Controls, Win32Proc,
+////////////////////////////////////////////////////
+  WSGrids;
+
+type
+  { TWin32WSCustomGrid }
+
+  TWin32WSCustomGrid = class(TWSCustomGrid)
+  published
+    class procedure SendCharToEditor(AEditor:TWinControl; Ch: TUTF8Char); override;
+  end;
+
+implementation
+
+{ TWin32WSCustomGrid }
+
+class procedure TWin32WSCustomGrid.SendCharToEditor(AEditor: TWinControl;
+  Ch: TUTF8Char);
+var
+  S: widestring;
+  WChar: WPARAM;
+begin
+  WChar:=WPARAM(Ord(Ch[1]));
+  if UnicodeEnabledOS then begin
+    if Length(Ch)>1 then begin
+      S := UTF8ToUTF16(Ch);
+      if S='' then WChar := WPARAM(Ord('?'))
+      else         WChar := WPARAM(S[1]);
+    end;
+    PostMessageW(AEditor.Handle, WM_CHAR, WChar, 0);
+    exit;
+  end else
+    WChar := WPARAM(Ord(UTF8ToAnsi(Ch)[1]));
+  PostMessage(AEditor.Handle, WM_CHAR, WChar, 0);
+end;
+
+end.

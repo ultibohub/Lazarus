@@ -1,0 +1,58 @@
+#   $Id: Makefile.fpc 49382 2015-06-21 10:45:24Z juha $
+#
+#   Makefile.fpc for Lazarus for Free Pascal
+#
+
+[target]
+dirs=
+
+[clean]
+files=$(wildcard ./units/*$(OEXT)) \
+      $(wildcard ./units/*$(PPUEXT)) \
+      $(wildcard ./units/*$(RSTEXT)) \
+      $(wildcard ./units/$(CPU_TARGET)-$(OS_TARGET)/*$(OEXT)) \
+      $(wildcard ./units/$(CPU_TARGET)-$(OS_TARGET)/*$(PPUEXT)) \
+      $(wildcard ./units/$(CPU_TARGET)-$(OS_TARGET)/*$(RSTEXT)) 
+
+[rules]
+.PHONY: help clean cleanall base bigide all
+
+#-----------------------------------------------------------------------------
+help:
+	@$(ECHO)
+	@$(ECHO) " Targets"
+	@$(ECHO) "   all         same as bigide"
+	@$(ECHO) "               lazutils, codetools, lazcontrols, synedit,
+	@$(ECHO) "               and ideintf are build separately"
+	@$(ECHO) "   clean       deletes output files of base and bigide components"
+	@$(ECHO) "   bigide      build the extra packages for the bigide"
+
+#-----------------------------------------------------------------------------
+# build the extra packages needed by the bigide
+bigide:
+	$(MAKE) -C synedit/design
+
+all: bigide
+
+clean:
+	$(MAKE) -C lazutils clean
+	$(MAKE) -C codetools clean
+	$(MAKE) -C debuggerintf clean
+	$(MAKE) -C lazdebuggergdbmi clean
+	$(MAKE) -C lazcontrols clean
+	$(MAKE) -C ideintf clean
+	$(MAKE) -C synedit clean
+	$(MAKE) -C synedit/design clean
+
+cleanall: clean
+
+distclean:
+	$(MAKE) -C lazutils distclean
+	$(MAKE) -C codetools distclean
+	$(MAKE) -C debuggerintf distclean
+	$(MAKE) -C lazdebuggergdbmi distclean
+	$(MAKE) -C lazcontrols distclean
+	$(MAKE) -C ideintf distclean
+	$(MAKE) -C synedit distclean
+	$(MAKE) -C synedit/design distclean
+
