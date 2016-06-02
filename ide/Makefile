@@ -375,6 +375,8 @@ DEFAULT_IDE_OPTIONS= $(LAZARUS_LIBPATHS) \
   -Fu../components/synedit/units/$(CPU_TARGET)-$(OS_TARGET)/$(LCL_PLATFORM) \
   -Fu../components/lazcontrols/lib/$(CPU_TARGET)-$(OS_TARGET)/$(LCL_PLATFORM) \
   -Fu../components/lazdebuggergdbmi/lib/$(CPU_TARGET)-$(OS_TARGET) \
+  -Fu../components/anchordocking/lib/$(CPU_TARGET)-$(OS_TARGET) \
+  -Fu../components/anchordocking/design/lib/$(CPU_TARGET)-$(OS_TARGET) \
   -Fu../units/$(CPU_TARGET)-$(OS_TARGET)/$(LCL_PLATFORM)
 BIG_IDE_OPTIONS=-dBigIDE $(DEFAULT_IDE_OPTIONS) \
   -Fu../components/synedit/design/units/$(CPU_TARGET)-$(OS_TARGET)/$(LCL_PLATFORM) \

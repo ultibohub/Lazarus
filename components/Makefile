@@ -1390,6 +1390,8 @@ help:
 	@$(ECHO) "   bigide      build the extra packages for the bigide"
 bigide:
 	$(MAKE) -C synedit/design
+	$(MAKE) -C anchordocking
+	$(MAKE) -C anchordocking/design
 all: bigide
 clean:
 	$(MAKE) -C lazutils clean
@@ -1400,6 +1402,8 @@ clean:
 	$(MAKE) -C ideintf clean
 	$(MAKE) -C synedit clean
 	$(MAKE) -C synedit/design clean
+	$(MAKE) -C anchordocking clean
+	$(MAKE) -C anchordocking/design clean
 cleanall: clean
 distclean:
 	$(MAKE) -C lazutils distclean
@@ -1410,3 +1414,5 @@ distclean:
 	$(MAKE) -C ideintf distclean
 	$(MAKE) -C synedit distclean
 	$(MAKE) -C synedit/design distclean
+	$(MAKE) -C anchordocking distclean
+	$(MAKE) -C anchordocking/design distclean

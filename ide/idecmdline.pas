@@ -56,7 +56,8 @@ const
   DebugLogOptEnable='--debug-enable=';
   LanguageOpt='--language=';
   LazarusDirOpt ='--lazarusdir=';
-
+  DisableDockingOpt = '--disabledocking'; //Ultibo
+  
 procedure ParseCommandLine(aCmdLineParams: TStrings; out IDEPid : Integer;
             out ShowSplashScreen: boolean);
 function GetCommandLineParameters(aCmdLineParams: TStrings;

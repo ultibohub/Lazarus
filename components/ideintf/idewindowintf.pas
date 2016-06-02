@@ -498,7 +498,8 @@ type
 
 var
   IDEDockMaster: TIDEDockMaster = nil; // can be set by a package
-
+  IDEDockDisabled: Boolean = false; //Ultibo
+  
 var
   IDEProjectInspectorCaption:String; //Ultibo
   
@@ -533,13 +534,13 @@ end;
 
 procedure MakeIDEWindowDockable(AControl: TWinControl);
 begin
-  if Assigned(IDEDockMaster) then
+  if Assigned(IDEDockMaster) and not(IDEDockDisabled) then //Ultibo
     IDEDockMaster.MakeIDEWindowDockable(AControl);
 end;
 
 procedure MakeIDEWindowDockSite(AForm: TCustomForm);
 begin
-  if Assigned(IDEDockMaster) then
+  if Assigned(IDEDockMaster) and not(IDEDockDisabled) then //Ultibo
     IDEDockMaster.MakeIDEWindowDockSite(AForm);
 end;
 
@@ -2309,7 +2310,7 @@ begin
   else
     Layout.Form:=AForm;
 
-  if (IDEDockMaster<>nil) and (not IsFormDesign(AForm))
+  if ((IDEDockMaster<>nil) and not(IDEDockDisabled)) and (not IsFormDesign(AForm)) //Ultibo
   and (FindWithName(AForm.Name)<>nil) then
     // show dockable if it has a creator and is not a designer form
     IDEDockMaster.ShowForm(AForm,BringToFront)
@@ -2360,7 +2361,7 @@ var
   HasChanged: Boolean;
   AChangeVisibility: Boolean;
 begin
-  if IDEDockMaster=nil then
+  if (IDEDockMaster=nil) or IDEDockDisabled then //Ultibo
   begin
     HasChanged:=false;
     for i:=SimpleLayoutStorage.Count-1 downto 0 do//loop down in order to keep z-order of the forms

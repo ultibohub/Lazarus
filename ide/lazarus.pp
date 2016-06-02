@@ -62,6 +62,8 @@ uses
   // use the custom IDE static packages AFTER 'main'
   {$IFDEF AddStaticPkgs}
   {$I staticpackages.inc}
+  {$ELSE}
+  anchordockingdsgn,
   {$ENDIF}
   {$IFDEF BigIDE}
     allsyneditdsgn, RunTimeTypeInfoControls, Printer4Lazarus, Printers4LazIDE,

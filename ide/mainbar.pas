@@ -423,7 +423,7 @@ begin
   if ANewHeight <= 0 then
     ANewHeight := CalcMainIDEHeight;
 
-  if Assigned(IDEDockMaster) then
+  if Assigned(IDEDockMaster) and not(IDEDockDisabled) then //Ultibo
   begin
     if EnvironmentOptions.Desktop.AutoAdjustIDEHeight then
       IDEDockMaster.AdjustMainIDEWindowHeight(Self, True, ANewHeight)

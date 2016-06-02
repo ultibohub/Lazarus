@@ -962,6 +962,7 @@ var
   SkipAutoLoadingLastProject: boolean = false;
   StartedByStartLazarus: boolean = false;
   ShowSetupDialog: boolean = false;
+  DisableDocking: boolean = false; //Ultibo
 
 type
   TDoDropFilesAsyncParams = class(TComponent)
@@ -1140,8 +1141,13 @@ begin
   end;
 
   ParseGuiCmdLineParams(SkipAutoLoadingLastProject, StartedByStartLazarus,
-    EnableRemoteControl, ShowSplashScreen, ShowSetupDialog);
+    EnableRemoteControl, ShowSplashScreen, ShowSetupDialog, DisableDocking); //Ultibo
 
+  if DisableDocking then //Ultibo
+  begin
+   IDEDockDisabled:=True; //Ultibo
+  end;
+  
   DebugLn('TMainIDE.ParseCmdLineOptions:');
   Debugln('  PrimaryConfigPath="',GetPrimaryConfigPath,'"');
   Debugln('  SecondaryConfigPath="',GetSecondaryConfigPath,'"');
@@ -1494,7 +1500,7 @@ begin
   Layout:=IDEWindowCreators.SimpleLayoutStorage.ItemByFormID(MainIDEBar.Name);
   if not (Layout.WindowState in [iwsNormal,iwsMaximized]) then
     Layout.WindowState:=iwsNormal;
-  if IDEDockMaster<>nil then
+  if (IDEDockMaster<>nil) and not(IDEDockDisabled) then //Ultibo
     IDEDockMaster.MakeIDEWindowDockSite(MainIDEBar);
 
   HiddenWindowsOnRun:=TFPList.Create;
@@ -1991,7 +1997,7 @@ begin
   IDECommandList.StopUpdateEvents;
   DoCallNotifyHandler(lihtIDEClose);
   SaveEnvironment(true);
-  if IDEDockMaster<>nil then
+  if (IDEDockMaster<>nil) and not(IDEDockDisabled) then //Ultibo
     IDEDockMaster.CloseAll
   else
     CloseAllForms;
@@ -2545,6 +2551,7 @@ begin
   //RegisterProjectDescriptor(TProjectApplicationDescriptor.Create); //Ultibo
   RegisterProjectDescriptor(TProjectRaspberryPiProgramDescriptor.Create); //Ultibo
   RegisterProjectDescriptor(TProjectRaspberryPi2ProgramDescriptor.Create); //Ultibo
+  RegisterProjectDescriptor(TProjectRaspberryPi3ProgramDescriptor.Create); //Ultibo
   RegisterProjectDescriptor(TProjectRaspberryPiZeroProgramDescriptor.Create); //Ultibo
   RegisterProjectDescriptor(TProjectSimpleProgramDescriptor.Create);
   RegisterProjectDescriptor(TProjectProgramDescriptor.Create);
@@ -11975,7 +11982,7 @@ begin
     end else begin
       aBounds:=Rect(ScreenR.Left+250,ScreenR.Bottom-200,ScreenR.Right-250,100);
     end;
-    if IDEDockMaster<>nil then begin
+    if (IDEDockMaster<>nil) and not(IDEDockDisabled) then begin //Ultibo
       DockSibling:=NonModalIDEWindowNames[nmiwSourceNoteBookName];
       DockAlign:=alBottom;
     end;

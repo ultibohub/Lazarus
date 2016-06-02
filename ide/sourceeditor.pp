@@ -9783,7 +9783,7 @@ begin
   aBounds:=Rect(ScreenR.Left+250+30*i,p,
                 Min(1500,ScreenR.Right-ScreenR.Left), //1000 //Ultibo
                 ScreenR.Bottom-ScreenR.Top-200);
-  if (i=0) and (IDEDockMaster<>nil) then begin
+  if (i=0) and (IDEDockMaster<>nil) and not(IDEDockDisabled) then begin //Ultibo
     DockSibling:=NonModalIDEWindowNames[nmiwMainIDEName];
     DockAlign:=alBottom;
   end;

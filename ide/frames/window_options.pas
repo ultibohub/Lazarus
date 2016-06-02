@@ -484,7 +484,7 @@ constructor TWindowOptionsFrame.Create(TheOwner: TComponent);
 begin
   inherited Create(TheOwner);
   FLayouts:=TSimpleWindowLayoutList.Create(False);
-  FShowSimpleLayout:=(IDEDockMaster=nil) or (not IDEDockMaster.HideSimpleLayoutOptions);
+  FShowSimpleLayout:=(IDEDockMaster=nil) or IDEDockDisabled or (not IDEDockMaster.HideSimpleLayoutOptions); //Ultibo
 end;
 
 destructor TWindowOptionsFrame.Destroy;

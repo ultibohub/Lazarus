@@ -4840,6 +4840,7 @@ resourcestring
 
   lisRaspberryPiProgram = 'Raspberry Pi (A/B/A+/B+) Application'; //Ultibo
   lisRaspberryPi2Program = 'Raspberry Pi 2B Application'; //Ultibo
+  lisRaspberryPi3Program = 'Raspberry Pi 3B Application'; //Ultibo
   lisRaspberryPiZeroProgram = 'Raspberry Pi Zero Application'; //Ultibo
   
   lisCustomProgram = 'Custom Program';
@@ -4859,6 +4860,7 @@ resourcestring
 
   lisRaspberryPiProgramProgramDescriptor = 'An application with Raspberry Pi A/B/A+/B+ specific settings.'; //Ultibo
   lisRaspberryPi2ProgramProgramDescriptor = 'An application with Raspberry Pi 2B specific settings.'; //Ultibo
+  lisRaspberryPi3ProgramProgramDescriptor = 'An application with Raspberry Pi 3B specific settings.'; //Ultibo
   lisRaspberryPiZeroProgramProgramDescriptor = 'An application with Raspberry Pi Zero specific settings.'; //Ultibo
   
   lisNPCreateANewProject = 'Create a new project';

@@ -406,7 +406,7 @@ constructor TCompPaletteOptions.Create;
 begin
   inherited Create;
   FHiddenPageNames := TStringList.Create;
-  FVisible := True;
+  FVisible := False; //True; //Ultibo
 end;
 
 destructor TCompPaletteOptions.Destroy;

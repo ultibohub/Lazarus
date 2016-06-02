@@ -358,6 +358,17 @@ type
     function CreateStartFiles(AProject: TLazProject): TModalResult; override;
   end; //Ultibo
 
+  { TProjectRaspberryPi3ProgramDescriptor } //Ultibo
+
+  TProjectRaspberryPi3ProgramDescriptor = class(TProjectDescriptor) //Ultibo
+  public
+    constructor Create; override;
+    function GetLocalizedName: string; override;
+    function GetLocalizedDescription: string; override;
+    function InitProject(AProject: TLazProject): TModalResult; override;
+    function CreateStartFiles(AProject: TLazProject): TModalResult; override;
+  end; //Ultibo
+  
   { TProjectRaspberryPiZeroProgramDescriptor } //Ultibo
 
   TProjectRaspberryPiZeroProgramDescriptor = class(TProjectDescriptor) //Ultibo
@@ -1668,6 +1679,87 @@ begin
                                       [ofProjectLoading,ofRegularFile]);
 end;
 
+{ TProjectRaspberryPi3ProgramDescriptor } //Ultibo
+
+constructor TProjectRaspberryPi3ProgramDescriptor.Create; //Ultibo
+begin
+  inherited Create;
+  Name:=ProjDescNameRaspberryPi3Program;
+  Flags:=Flags-[pfMainUnitHasCreateFormStatements,pfMainUnitHasTitleStatement,pfRunnable,pfUseDesignTimePackages] //Ultibo
+              +[pfUseDefaultCompilerOptions];
+end;
+
+function TProjectRaspberryPi3ProgramDescriptor.GetLocalizedName: string; //Ultibo
+begin
+  Result:=lisRaspberryPi3Program;
+end;
+
+function TProjectRaspberryPi3ProgramDescriptor.GetLocalizedDescription: string; //Ultibo
+begin
+  Result := GetLocalizedName + LineEnding+LineEnding + lisRaspberryPi3ProgramProgramDescriptor;
+end;
+
+function TProjectRaspberryPi3ProgramDescriptor.InitProject(AProject: TLazProject): TModalResult; //Ultibo
+var
+  NewSource: String;
+  MainFile: TLazProjectFile;
+begin
+  Result:=inherited InitProject(AProject);
+
+  MainFile:=AProject.CreateProjectFile('project1.lpr');
+  MainFile.IsPartOfProject:=true;
+  AProject.AddFile(MainFile,false);
+  AProject.MainFileID:=0;
+
+  // create program source
+  NewSource:='program Project1;'+LineEnding
+    +LineEnding
+    +'{$mode objfpc}{$H+}'+LineEnding
+    +LineEnding
+    +'{ Raspberry Pi 3 Application                                                   }'+LineEnding 
+    +'{  Add your program code below, add additional units to the "uses" section if  }'+LineEnding 
+    +'{  required and create new units by selecting File, New Unit from the menu.    }'+LineEnding 
+    +'{                                                                              }'+LineEnding 
+    +'{  To compile your program select Run, Compile (or Run, Build) from the menu.  }'+LineEnding 
+    +LineEnding
+    +'uses'+LineEnding
+    +'  RaspberryPi3,'+LineEnding
+    +'  GlobalConfig,'+LineEnding 
+    +'  GlobalConst,'+LineEnding 
+    +'  GlobalTypes,'+LineEnding 
+    +'  Platform,'+LineEnding
+    +'  Threads,'+LineEnding
+    +'  SysUtils,'+LineEnding
+    +'  Classes,'+LineEnding
+    +'  Ultibo'+LineEnding
+    +'  { Add additional units here };'+LineEnding
+    +LineEnding
+    +'begin'+LineEnding
+    +' { Add your program code here }'+LineEnding
+    +'end.'+LineEnding
+    +LineEnding;
+  AProject.MainFile.SetSourceText(NewSource,true);
+
+  AProject.LazCompilerOptions.UnitOutputDirectory:='lib'+PathDelim+'$(TargetCPU)-$(TargetOS)';
+  AProject.LazCompilerOptions.TargetFilename:='project1';
+  
+  AProject.LazCompilerOptions.TargetCPU:='arm';
+  AProject.LazCompilerOptions.TargetOS:='ultibo';
+  AProject.LazCompilerOptions.TargetProcessor:='armv7a';
+  AProject.LazCompilerOptions.TargetController:='RPI3B';
+  AProject.LazCompilerOptions.OptimizationLevel:=2;
+  AProject.LazCompilerOptions.GenerateDebugInfo:=False;
+  AProject.LazCompilerOptions.UseLineInfoUnit:=False;
+  AProject.LazCompilerOptions.SmartLinkUnit:=True;
+  AProject.LazCompilerOptions.LinkSmart:=True;
+end;
+
+function TProjectRaspberryPi3ProgramDescriptor.CreateStartFiles(AProject: TLazProject): TModalResult; //Ultibo
+begin
+  Result:=LazarusIDE.DoOpenEditorFile(AProject.MainFile.Filename,-1,-1,
+                                      [ofProjectLoading,ofRegularFile]);
+end;
+
 { TProjectRaspberryPiZeroProgramDescriptor } //Ultibo
 
 constructor TProjectRaspberryPiZeroProgramDescriptor.Create; //Ultibo
@@ -1705,7 +1797,7 @@ begin
     +LineEnding
     +'{$mode objfpc}{$H+}'+LineEnding
     +LineEnding
-    +'{ Raspberry Pi Zero Application                                                   }'+LineEnding 
+    +'{ Raspberry Pi Zero Application                                                }'+LineEnding 
     +'{  Add your program code below, add additional units to the "uses" section if  }'+LineEnding 
     +'{  required and create new units by selecting File, New Unit from the menu.    }'+LineEnding 
     +'{                                                                              }'+LineEnding 

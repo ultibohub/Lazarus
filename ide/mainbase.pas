@@ -1776,7 +1776,7 @@ begin
     if (not AForm.IsVisible) or (AForm=MainIDEBar) or (AForm=SplashForm)
     or IsFormDesign(AForm) or (WindowsList.IndexOf(AForm)>=0) then
       continue;
-    if IDEDockMaster<>nil then
+    if (IDEDockMaster<>nil) and not(IDEDockDisabled) then //Ultibo
     begin
       if not IDEDockMaster.AddableInWindowMenu(AForm) then continue;
     end else begin
