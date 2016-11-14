@@ -3211,6 +3211,7 @@ resourcestring
   lisMenuCodeToolsDefinesEditor          = 'CodeTools Defines Editor ...';
   lisMenuRescanFPCSourceDirectory = 'Rescan FPC Source Directory';
   lisMenuBuildUltiboRTL           = 'Build Ultibo RTL ...'; //Ultibo
+  lisMenuRunInQEMU                = 'Run in QEMU ...'; //Ultibo
   srkmecMakeResourceString        = 'Make Resource String';
   lisDesktops                     = 'Desktops ...';
   lisKMDiffEditorFiles            = 'Diff Editor Files';
@@ -4842,6 +4843,7 @@ resourcestring
   lisRaspberryPi2Program = 'Raspberry Pi 2B Application'; //Ultibo
   lisRaspberryPi3Program = 'Raspberry Pi 3B Application'; //Ultibo
   lisRaspberryPiZeroProgram = 'Raspberry Pi Zero Application'; //Ultibo
+  lisQEMUVersatilePBProgram = 'QEMU VersatilePB Application'; //Ultibo
   
   lisCustomProgram = 'Custom Program';
   lisSimpleProgram = 'Simple Program';
@@ -4862,6 +4864,7 @@ resourcestring
   lisRaspberryPi2ProgramProgramDescriptor = 'An application with Raspberry Pi 2B specific settings.'; //Ultibo
   lisRaspberryPi3ProgramProgramDescriptor = 'An application with Raspberry Pi 3B specific settings.'; //Ultibo
   lisRaspberryPiZeroProgramProgramDescriptor = 'An application with Raspberry Pi Zero specific settings.'; //Ultibo
+  lisQEMUVersatilePBProgramProgramDescriptor = 'An application with QEMU VersatilePB specific settings.'; //Ultibo
   
   lisNPCreateANewProject = 'Create a new project';
   lisNPCreate = 'Create';

@@ -1359,6 +1359,8 @@ begin
                    lisMenuRescanFPCSourceDirectory);
     CreateMenuItem(ParentMI,itmToolBuildUltiboRTL,'itmToolBuildUltiboRTL',
                    lisMenuBuildUltiboRTL); //Ultibo               
+    CreateMenuItem(ParentMI,itmToolRunInQEMU,'itmToolRunInQEMU',
+                   lisMenuRunInQEMU); //Ultibo               
     CreateMenuItem(ParentMI,itmEnvCodeTemplates,'itmEnvCodeTemplates',lisMenuEditCodeTemplates,'');
     CreateMenuItem(ParentMI,itmEnvCodeToolsDefinesEditor,'itmEnvCodeToolsDefinesEditor',
                    lisMenuCodeToolsDefinesEditor,'menu_codetoolsdefineseditor');
@@ -1692,6 +1694,7 @@ begin
     itmEnvGeneralOptions.Command:=GetCommand(ecEnvironmentOptions);
     itmToolRescanFPCSrcDir.Command:=GetCommand(ecRescanFPCSrcDir);
     itmToolBuildUltiboRTL.Command:=GetCommand(ecBuildUltiboRTL); //Ultibo
+    itmToolRunInQEMU.Command:=GetCommand(ecRunInQEMU); //Ultibo
     itmEnvCodeTemplates.Command:=GetCommand(ecEditCodeTemplates);
     itmEnvCodeToolsDefinesEditor.Command:=GetCommand(ecCodeToolsDefinesEd);
 

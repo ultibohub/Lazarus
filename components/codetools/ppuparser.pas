@@ -198,7 +198,7 @@ const
      'mipsel',
      'jvm',
      'i8086',
-     'a64'
+     'aarch64'
      );
 
 // from ppu.pas
@@ -877,8 +877,14 @@ type
         system_i386_aros,          { 83 }
         system_x86_64_aros,        { 84 }
         system_x86_64_dragonfly,   { 85 }
-        system_aarch64_darwin,     { 85 }
-        system_x86_64_iphonesim    { 86 }
+        system_aarch64_darwin,     { 86 }
+        system_x86_64_iphonesim,   { 87 }
+        system_aarch64_linux,      { 88 }
+        system_i8086_win16,        { 89 }
+        system_arm_ultibo,         { 90 } //Ultibo
+        system_i386_ultibo,        { 91 } //Ultibo
+        system_x86_64_ultibo,      { 92 } //Ultibo
+        system_aarch64_ultibo      { 93 } //Ultibo
       );
 const
   // taken form ppudump.pp
@@ -969,8 +975,14 @@ const
   { 83 }  'AROS-i386',
   { 84 }  'AROS-x86-64',
   { 85 }  'DragonFly-x86-64',
-  { 85 }  'Darwin-AArch64',
-  { 86 }  'iPhoneSim-x86-64'
+  { 86 }  'Darwin-AArch64',
+  { 87 }  'iPhoneSim-x86-64',
+  { 88 }  'Linux-AArch64',
+  { 89 }  'Win16',
+  { 90 }  'Ultibo-arm',    //Ultibo
+  { 91 }  'Ultibo-i386',   //Ultibo   
+  { 92 }  'Ultibo-x86-64', //Ultibo
+  { 93 }  'Ultibo-AArch64' //Ultibo    
   );
 begin
   if w<=ord(high(ttarget)) then

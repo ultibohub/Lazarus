@@ -180,7 +180,7 @@ const
       'bsd', 'linux' // see GetDefaultSrcOS2ForTargetOS
     );
   FPCProcessorNames: array[1..12] of shortstring =(
-      'a64',
+      'aarch64',
       'arm',
       'avr',
       'i386',
@@ -193,12 +193,13 @@ const
       'sparc',
       'x86_64'
     );
-  FPCControllerNames: array[1..5] of shortstring =(  //Ultibo
+  FPCControllerNames: array[1..6] of shortstring =(  //Ultibo
       'RPIA',
       'RPIB',
       'RPIZERO',
       'RPI2B',
-      'RPI3B'
+      'RPI3B',
+      'QEMUVPB'
     );  
   FPCSyntaxModes: array[1..6] of shortstring = (
     'FPC', 'ObjFPC', 'Delphi', 'TP', 'MacPas', 'ISO'
@@ -3009,8 +3010,8 @@ begin
     Result:=Result+'x64'
   else if SysUtils.CompareText(TargetCPU,'ia64')=0 then
     Result:=Result+'ia64'
-  else if SysUtils.CompareText(TargetCPU,'a64')=0 then
-    Result:=Result+'a64'
+  else if SysUtils.CompareText(TargetCPU,'aarch64')=0 then
+    Result:=Result+'a64' //Ultibo //Note: a64 not aarch64
   else
     Result:='fpc';
   Result:=Result+ExeExt;
@@ -3085,6 +3086,11 @@ procedure GetTargetProcessors(const TargetCPU: string; aList: TStrings);
     aList.Add('AVR6');
   end;
 
+  procedure Aarch64; //Ultibo
+  begin
+    aList.Add('ARMV8');
+  end;
+  
 begin
   case TargetCPU of
     'arm'    : Arm;
@@ -3096,7 +3102,7 @@ begin
     'x86_64' : Intel_x86_64;
     'mipsel','mips' : Mips;
     'jvm'    : ;
-    'a64'    : ;
+    'aarch64': Aarch64; //Ultibo
   end;
 end;
 

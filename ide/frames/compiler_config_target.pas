@@ -67,6 +67,7 @@ type
     FIsPackage: boolean;
     procedure UpdateByTargetOS(aTargetOS: string);
     procedure UpdateByTargetCPU(aTargetCPU: string);
+    procedure UpdateByTargetCPUUltibo(aTargetCPU: string); //Ultibo
   public
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
@@ -264,6 +265,56 @@ begin
   ParsingFrame.grpAsmStyle.Visible := (aTargetCPU='i386') or (aTargetCPU='x86_64');
 end;
 
+procedure TCompilerConfigTargetFrame.UpdateByTargetCPUUltibo(aTargetCPU: string); //Ultibo
+var
+  ParsingFrame: TCompilerParsingOptionsFrame;
+  sl: TStringList;
+  i: Integer;
+  aTargetController: String;
+begin
+  if aTargetCPU = '' then
+  begin
+    aTargetCPU := '$(TargetCPU)';
+    if not GlobalMacroList.SubstituteStr(aTargetCPU) then
+      raise Exception.CreateFmt('Cannot substitute macro "%s".', [aTargetCPU]);
+  end;
+
+  // Update selection list for target processor
+  sl:=TStringList.Create;
+  GetTargetProcessors(aTargetCPU,sl);
+  sl.Sort;
+  sl.Insert(0,'('+lisDefault+')');
+  for i:=0 to sl.Count-1 do
+    sl[i]:=ProcessorToCaption(sl[i]);
+  TargetProcComboBox.Items.Assign(sl);
+  sl.Free;
+  
+  // Check for arm
+  if aTargetCPU='arm' then
+  begin
+    // Get target controller
+    aTargetController := CaptionToController(TargetControllerComboBox.Text); 
+    
+    // Check for RPI2 or RPI3
+    if (aTargetController='RPI2B') or (aTargetController='RPI3B') then
+      TargetProcComboBox.ItemIndex := TargetProcComboBox.Items.IndexOf('ARMV7A') 
+    else  
+      TargetProcComboBox.ItemIndex := TargetProcComboBox.Items.IndexOf('ARMV6');
+  end
+  // Check for aarch64
+  else if aTargetCPU='aarch64' then
+  begin
+    TargetProcComboBox.ItemIndex := TargetProcComboBox.Items.IndexOf('ARMV8')
+  end
+  else
+    TargetProcComboBox.ItemIndex := 0;
+
+  // Update selection list for assembler style
+  ParsingFrame := TCompilerParsingOptionsFrame(FDialog.FindEditor(TCompilerParsingOptionsFrame));
+  Assert(Assigned(ParsingFrame));
+  ParsingFrame.grpAsmStyle.Visible := (aTargetCPU='i386') or (aTargetCPU='x86_64');
+end; //Ultibo
+
 procedure TCompilerConfigTargetFrame.Setup(ADialog: TAbstractOptionsEditorDialog);
 var
   s: ShortString;
@@ -318,7 +369,7 @@ begin
   
   chkWin32GraphicApp.Enabled:=False; //Ultibo
   TargetOSComboBox.Enabled:=False; //Ultibo
-  TargetCPUComboBox.Enabled:=False; //Ultibo
+  //TargetCPUComboBox.Enabled:=False; //Ultibo
 end;
 
 procedure TCompilerConfigTargetFrame.ReadSettings(AOptions: TAbstractIDEOptions);
@@ -431,7 +482,11 @@ begin
     s :=''
   else
     s := cb.Text;
-  UpdateByTargetCPU(s);
+  
+  if CaptionToOS(TargetOSComboBox.Text)='ultibo' then //Ultibo
+   UpdateByTargetCPUUltibo(s) //Ultibo
+  else 
+   UpdateByTargetCPU(s);
 end;
 
 procedure TCompilerConfigTargetFrame.LCLWidgetTypeLabelClick(Sender: TObject);

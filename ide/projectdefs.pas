@@ -379,7 +379,17 @@ type
     function InitProject(AProject: TLazProject): TModalResult; override;
     function CreateStartFiles(AProject: TLazProject): TModalResult; override;
   end; //Ultibo
-  
+
+  { TProjectQEMUVersatilePBProgramDescriptor } //Ultibo
+
+  TProjectQEMUVersatilePBProgramDescriptor = class(TProjectDescriptor) //Ultibo
+  public
+    constructor Create; override;
+    function GetLocalizedName: string; override;
+    function GetLocalizedDescription: string; override;
+    function InitProject(AProject: TLazProject): TModalResult; override;
+    function CreateStartFiles(AProject: TLazProject): TModalResult; override;
+  end; //Ultibo
   
   { TProjectConsoleApplicationDescriptor }
 
@@ -1523,8 +1533,8 @@ constructor TProjectRaspberryPiProgramDescriptor.Create; //Ultibo
 begin
   inherited Create;
   Name:=ProjDescNameRaspberryPiProgram;
-  Flags:=Flags-[pfMainUnitHasCreateFormStatements,pfMainUnitHasTitleStatement,pfRunnable,pfUseDesignTimePackages] //Ultibo
-              +[pfUseDefaultCompilerOptions];
+  Flags:=Flags-[pfMainUnitHasCreateFormStatements,pfMainUnitHasTitleStatement,pfRunnable,pfUseDesignTimePackages]; //Ultibo
+              //+[pfUseDefaultCompilerOptions]; //Do not use defaults for specific model templates
 end;
 
 function TProjectRaspberryPiProgramDescriptor.GetLocalizedName: string; //Ultibo
@@ -1604,8 +1614,8 @@ constructor TProjectRaspberryPi2ProgramDescriptor.Create; //Ultibo
 begin
   inherited Create;
   Name:=ProjDescNameRaspberryPi2Program;
-  Flags:=Flags-[pfMainUnitHasCreateFormStatements,pfMainUnitHasTitleStatement,pfRunnable,pfUseDesignTimePackages] //Ultibo
-              +[pfUseDefaultCompilerOptions];
+  Flags:=Flags-[pfMainUnitHasCreateFormStatements,pfMainUnitHasTitleStatement,pfRunnable,pfUseDesignTimePackages]; //Ultibo
+              //+[pfUseDefaultCompilerOptions]; //Do not use defaults for specific model templates
 end;
 
 function TProjectRaspberryPi2ProgramDescriptor.GetLocalizedName: string; //Ultibo
@@ -1685,8 +1695,8 @@ constructor TProjectRaspberryPi3ProgramDescriptor.Create; //Ultibo
 begin
   inherited Create;
   Name:=ProjDescNameRaspberryPi3Program;
-  Flags:=Flags-[pfMainUnitHasCreateFormStatements,pfMainUnitHasTitleStatement,pfRunnable,pfUseDesignTimePackages] //Ultibo
-              +[pfUseDefaultCompilerOptions];
+  Flags:=Flags-[pfMainUnitHasCreateFormStatements,pfMainUnitHasTitleStatement,pfRunnable,pfUseDesignTimePackages]; //Ultibo
+              //+[pfUseDefaultCompilerOptions]; //Do not use defaults for specific model templates
 end;
 
 function TProjectRaspberryPi3ProgramDescriptor.GetLocalizedName: string; //Ultibo
@@ -1766,8 +1776,8 @@ constructor TProjectRaspberryPiZeroProgramDescriptor.Create; //Ultibo
 begin
   inherited Create;
   Name:=ProjDescNameRaspberryPiZeroProgram;
-  Flags:=Flags-[pfMainUnitHasCreateFormStatements,pfMainUnitHasTitleStatement,pfRunnable,pfUseDesignTimePackages] //Ultibo
-              +[pfUseDefaultCompilerOptions];
+  Flags:=Flags-[pfMainUnitHasCreateFormStatements,pfMainUnitHasTitleStatement,pfRunnable,pfUseDesignTimePackages]; //Ultibo
+              //+[pfUseDefaultCompilerOptions]; //Do not use defaults for specific model templates
 end;
 
 function TProjectRaspberryPiZeroProgramDescriptor.GetLocalizedName: string; //Ultibo
@@ -1836,6 +1846,87 @@ begin
 end;
 
 function TProjectRaspberryPiZeroProgramDescriptor.CreateStartFiles(AProject: TLazProject): TModalResult; //Ultibo
+begin
+  Result:=LazarusIDE.DoOpenEditorFile(AProject.MainFile.Filename,-1,-1,
+                                      [ofProjectLoading,ofRegularFile]);
+end;
+
+{ TProjectQEMUVersatilePBProgramDescriptor } //Ultibo
+
+constructor TProjectQEMUVersatilePBProgramDescriptor.Create; //Ultibo
+begin
+  inherited Create;
+  Name:=ProjDescNameQEMUVersatilePBProgram;
+  Flags:=Flags-[pfMainUnitHasCreateFormStatements,pfMainUnitHasTitleStatement,pfRunnable,pfUseDesignTimePackages]; //Ultibo
+              //+[pfUseDefaultCompilerOptions]; //Do not use defaults for specific model templates
+end;
+
+function TProjectQEMUVersatilePBProgramDescriptor.GetLocalizedName: string; //Ultibo
+begin
+  Result:=lisQEMUVersatilePBProgram;
+end;
+
+function TProjectQEMUVersatilePBProgramDescriptor.GetLocalizedDescription: string; //Ultibo
+begin
+  Result := GetLocalizedName + LineEnding+LineEnding + lisQEMUVersatilePBProgramProgramDescriptor;
+end;
+
+function TProjectQEMUVersatilePBProgramDescriptor.InitProject(AProject: TLazProject): TModalResult; //Ultibo
+var
+  NewSource: String;
+  MainFile: TLazProjectFile;
+begin
+  Result:=inherited InitProject(AProject);
+
+  MainFile:=AProject.CreateProjectFile('project1.lpr');
+  MainFile.IsPartOfProject:=true;
+  AProject.AddFile(MainFile,false);
+  AProject.MainFileID:=0;
+
+  // create program source
+  NewSource:='program Project1;'+LineEnding
+    +LineEnding
+    +'{$mode objfpc}{$H+}'+LineEnding
+    +LineEnding
+    +'{ QEMU VersatilePB Application                                                 }'+LineEnding 
+    +'{  Add your program code below, add additional units to the "uses" section if  }'+LineEnding 
+    +'{  required and create new units by selecting File, New Unit from the menu.    }'+LineEnding 
+    +'{                                                                              }'+LineEnding 
+    +'{  To compile your program select Run, Compile (or Run, Build) from the menu.  }'+LineEnding 
+    +LineEnding
+    +'uses'+LineEnding
+    +'  QEMUVersatilePB,'+LineEnding
+    +'  GlobalConfig,'+LineEnding 
+    +'  GlobalConst,'+LineEnding 
+    +'  GlobalTypes,'+LineEnding 
+    +'  Platform,'+LineEnding
+    +'  Threads,'+LineEnding
+    +'  SysUtils,'+LineEnding
+    +'  Classes,'+LineEnding
+    +'  Ultibo'+LineEnding
+    +'  { Add additional units here };'+LineEnding
+    +LineEnding
+    +'begin'+LineEnding
+    +' { Add your program code here }'+LineEnding
+    +'end.'+LineEnding
+    +LineEnding;
+  AProject.MainFile.SetSourceText(NewSource,true);
+
+  AProject.LazCompilerOptions.UnitOutputDirectory:='lib'+PathDelim+'$(TargetCPU)-$(TargetOS)';
+  AProject.LazCompilerOptions.TargetFilename:='project1';
+  
+  AProject.LazCompilerOptions.TargetCPU:='arm';
+  AProject.LazCompilerOptions.TargetOS:='ultibo';
+  AProject.LazCompilerOptions.TargetProcessor:='armv7a';
+  AProject.LazCompilerOptions.TargetController:='QEMUVPB';
+  AProject.LazCompilerOptions.OptimizationLevel:=2;
+  AProject.LazCompilerOptions.GenerateDebugInfo:=False;
+  AProject.LazCompilerOptions.UseLineInfoUnit:=False;
+  AProject.LazCompilerOptions.SmartLinkUnit:=True;
+  AProject.LazCompilerOptions.LinkSmart:=True;
+end;
+
+function TProjectQEMUVersatilePBProgramDescriptor.CreateStartFiles(AProject: TLazProject): TModalResult; //Ultibo
 begin
   Result:=LazarusIDE.DoOpenEditorFile(AProject.MainFile.Filename,-1,-1,
                                       [ofProjectLoading,ofRegularFile]);

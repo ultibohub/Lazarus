@@ -369,7 +369,8 @@ type
     procedure mnuEnvCodeTemplatesClicked(Sender: TObject);
     procedure mnuEnvCodeToolsDefinesEditorClicked(Sender: TObject);
     procedure mnuEnvRescanFPCSrcDirClicked(Sender: TObject);
-    procedure mnuToolBuildUltiboRTLClicked(Sender: TObject);
+    procedure mnuToolBuildUltiboRTLClicked(Sender: TObject); //Ultibo
+    procedure mnuToolRunInQEMUClicked(Sender: TObject); //Ultibo
 
     // windows menu
     procedure mnuWindowManagerClicked(Sender: TObject);
@@ -2553,6 +2554,7 @@ begin
   RegisterProjectDescriptor(TProjectRaspberryPi2ProgramDescriptor.Create); //Ultibo
   RegisterProjectDescriptor(TProjectRaspberryPi3ProgramDescriptor.Create); //Ultibo
   RegisterProjectDescriptor(TProjectRaspberryPiZeroProgramDescriptor.Create); //Ultibo
+  RegisterProjectDescriptor(TProjectQEMUVersatilePBProgramDescriptor.Create); //Ultibo
   RegisterProjectDescriptor(TProjectSimpleProgramDescriptor.Create);
   RegisterProjectDescriptor(TProjectProgramDescriptor.Create);
   //RegisterProjectDescriptor(TProjectConsoleApplicationDescriptor.Create); //Ultibo
@@ -2803,6 +2805,11 @@ begin
     itmEnvGeneralOptions.OnClick := @mnuEnvGeneralOptionsClicked;
     itmToolRescanFPCSrcDir.OnClick := @mnuEnvRescanFPCSrcDirClicked;
     itmToolBuildUltiboRTL.OnClick := @mnuToolBuildUltiboRTLClicked; //Ultibo
+    itmToolRunInQEMU.OnClick := @mnuToolRunInQEMUClicked; //Ultibo
+    {$IFNDEF Windows}
+    itmToolBuildUltiboRTL.Visible:=False; //Ultibo
+    itmToolRunInQEMU.Visible:=False; //Ultibo
+    {$ENDIF}
     itmEnvCodeTemplates.OnClick := @mnuEnvCodeTemplatesClicked;
     itmEnvCodeToolsDefinesEditor.OnClick := @mnuEnvCodeToolsDefinesEditorClicked;
 
@@ -5060,7 +5067,58 @@ begin
  finally
   ExternalToolOptions.Free;
  end;
-end;
+end; //Ultibo
+
+procedure TMainIDE.mnuToolRunInQEMUClicked(Sender: TObject); //Ultibo
+
+ function GetCmdLineParams:String;
+ var
+  WorkingDir:String;
+ begin
+  Result:='';
+  if Project1 = nil then Exit;
+  
+  if not Project1.IsVirtual then
+   begin
+    WorkingDir:=Project1.ProjectDirectory;
+    if Length(WorkingDir) <> 0 then
+     begin
+      Result:='Project=' + CreateAbsolutePath(Project1.MainUnitInfo.Filename,WorkingDir);
+     end
+    else
+     begin
+      Result:='Project=' + Project1.ProjectInfoFile;
+     end;
+   end
+  else
+   begin
+    WorkingDir:=GetTestBuildDirectory;
+    Result:='Project=' + MainBuildBoss.GetTestUnitFilename(Project1.MainUnitInfo);
+   end;
+  
+  Result:=Result + ' CPU=' + Project1.CompilerOptions.TargetCPU;
+  Result:=Result + ' Processor=' + Project1.CompilerOptions.TargetProcessor;
+  Result:=Result + ' Controller=' + Project1.CompilerOptions.TargetController;
+ end;
+ 
+var
+ ExternalToolOptions:TIDEExternalToolOptions;
+begin
+ if Project1 = nil then Exit;
+ 
+ ExternalToolOptions:=TIDEExternalToolOptions.Create;
+ try
+  ExternalToolOptions.Title:=lisMenuRunInQEMU;
+  ExternalToolOptions.WorkingDirectory:='$(LazarusDir)tools';
+  ExternalToolOptions.CmdLineParams:=GetCmdLineParams;
+  if Length(ExternalToolOptions.CmdLineParams) = 0 then Exit;
+  ExternalToolOptions.Executable:='$(LazarusDir)tools\QEMULauncher.exe';
+ 
+  RunExternalTool(ExternalToolOptions);
+ finally
+  ExternalToolOptions.Free;
+ end;
+end; //Ultibo
 
 procedure TMainIDE.mnuWindowManagerClicked(Sender: TObject);
 begin

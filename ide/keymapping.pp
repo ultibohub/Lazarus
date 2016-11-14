@@ -692,6 +692,7 @@ begin
     ecEnvironmentOptions      : Result:= srkmecEnvironmentOptions;
     ecRescanFPCSrcDir         : Result:= lisMenuRescanFPCSourceDirectory;
     ecBuildUltiboRTL          : Result:= lisMenuBuildUltiboRTL; //Ultibo
+    ecRunInQEMU               : Result:= lisMenuRunInQEMU; //Ultibo
     ecEditCodeTemplates       : Result:= lisMenuEditCodeTemplates;
     ecCodeToolsDefinesEd      : Result:= lisKMCodeToolsDefinesEditor;
     ecManageDesktops          : Result:= lisDesktops;
@@ -1322,6 +1323,7 @@ begin
   ecEnvironmentOptions:  SetSingle(VK_O,[ssShift,ssCtrl]);
   ecRescanFPCSrcDir:     SetSingle(VK_UNKNOWN,[]);
   ecBuildUltiboRTL:      SetSingle(VK_UNKNOWN,[]); //Ultibo
+  ecRunInQEMU:           SetSingle(VK_UNKNOWN,[]); //Ultibo
   ecEditCodeTemplates:   SetSingle(VK_UNKNOWN,[]);
   ecCodeToolsDefinesEd:  SetSingle(VK_UNKNOWN,[]);
 
@@ -1761,6 +1763,7 @@ begin
   ecEnvironmentOptions:  SetSingle(VK_O,[ssShift,ssCtrl]);
   ecRescanFPCSrcDir:     SetSingle(VK_UNKNOWN,[]);
   ecBuildUltiboRTL:      SetSingle(VK_UNKNOWN,[]); //Ultibo
+  ecRunInQEMU:           SetSingle(VK_UNKNOWN,[]); //Ultibo
   ecEditCodeTemplates:   SetSingle(VK_UNKNOWN,[]);
   ecCodeToolsDefinesEd:  SetSingle(VK_UNKNOWN,[]);
 
@@ -2386,6 +2389,7 @@ begin
   ecEnvironmentOptions:  SetSingle(186,[ssCtrl]); // Cmd-semicolon
   ecRescanFPCSrcDir:     SetSingle(VK_UNKNOWN,[]);
   ecBuildUltiboRTL:      SetSingle(VK_UNKNOWN,[]); //Ultibo
+  ecRunInQEMU:           SetSingle(VK_UNKNOWN,[]); //Ultibo
   ecEditCodeTemplates:   SetSingle(VK_UNKNOWN,[]);
   ecCodeToolsDefinesEd:  SetSingle(VK_UNKNOWN,[]);
 
@@ -3084,6 +3088,7 @@ begin
   AddDefault(C, 'General environment options', srkmecEnvironmentOptions, ecEnvironmentOptions);
   AddDefault(C, 'Rescan FPC source directory', lisMenuRescanFPCSourceDirectory, ecRescanFPCSrcDir);
   AddDefault(C, 'Build Ultibo RTL', lisMenuBuildUltiboRTL, ecBuildUltiboRTL); //Ultibo
+  AddDefault(C, 'Run in QEMU', lisMenuRunInQEMU, ecRunInQEMU); //Ultibo
   AddDefault(C, 'Edit Code Templates', lisKMEditCodeTemplates, ecEditCodeTemplates);
   AddDefault(C, 'CodeTools defines editor', lisKMCodeToolsDefinesEditor, ecCodeToolsDefinesEd);
   AddDefault(C, 'Manage desktops', dlgManageDesktops, ecManageDesktops);

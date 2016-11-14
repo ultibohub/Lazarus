@@ -1520,7 +1520,7 @@ var
       end;
     end;
   end;
-
+ 
 var
   b: boolean;
   dit: TCompilerDbgSymbolType;
@@ -1604,7 +1604,7 @@ begin
     3: TargetProcessor:='PENTIUM3';
     end;
   end else
-    TargetProcessor := aXMLConfig.GetValue(p+'TargetProcessor/Value', '');
+    TargetProcessor := aXMLConfig.GetValue(p+'TargetProcessor/Value', ''); //Ultibo
   TargetController := aXMLConfig.GetValue(p+'TargetController/Value', ''); //Ultibo
   TargetCPU := aXMLConfig.GetValue(p+'TargetCPU/Value', 'arm'); //Ultibo
   TargetOS := aXMLConfig.GetValue(p+'TargetOS/Value', 'ultibo'); //Ultibo
@@ -2821,7 +2821,12 @@ begin
   { Controller Options}
   if TargetController <> '' then //Ultibo
    begin
-    if Uppercase(TargetController) = 'RPI2B' then
+    if Uppercase(TargetController) = 'QEMUVPB' then
+     begin
+      {QEMU VersatilePB}
+      Switches:=Switches + ' @' + ExtractFilePath(FPCompilerFilename) + 'QEMUVPB.CFG';
+     end
+    else if Uppercase(TargetController) = 'RPI2B' then
      begin
       {Raspberry Pi 2B}
       Switches:=Switches + ' @' + ExtractFilePath(FPCompilerFilename) + 'RPI2.CFG';

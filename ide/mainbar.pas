@@ -335,6 +335,7 @@ type
         itmEnvGeneralOptions: TIDEMenuCommand;
         itmToolRescanFPCSrcDir: TIDEMenuCommand;
         itmToolBuildUltiboRTL: TIDEMenuCommand; //Ultibo
+        itmToolRunInQEMU: TIDEMenuCommand; //Ultibo
         itmEnvCodeTemplates: TIDEMenuCommand;
         itmEnvCodeToolsDefinesEditor: TIDEMenuCommand;
       //itmCustomTools: TIDEMenuSection;
@@ -827,6 +828,7 @@ begin
   //itmPkgEditInstallPkgs.Enabled:=aAllow; //Ultibo
   itmToolRescanFPCSrcDir.Enabled:=aAllow;
   itmToolBuildUltiboRTL.Enabled:=aAllow; //Ultibo
+  itmToolRunInQEMU.Enabled:=aAllow; //Ultibo
   itmToolBuildLazarus.Enabled:=aAllow;
   //itmToolConfigureBuildLazarus.Enabled:=aAllow;
 end;

@@ -333,6 +333,7 @@ const
   ecManageSourceEditors     = ecFirstLazarus + 840;
 
   ecBuildUltiboRTL          = ecFirstLazarus + 850; //Ultibo
+  ecRunInQEMU               = ecFirstLazarus + 851; //Ultibo
   
   // help menu
   ecAboutLazarus            = ecFirstLazarus + 900;

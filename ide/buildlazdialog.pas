@@ -1076,6 +1076,7 @@ begin
       Add('embedded');
       Add('symbian');
       Add('msdos');
+      Add('ultibo'); //Ultibo
     end;
     ItemIndex:=0;
   end;
@@ -1083,7 +1084,7 @@ begin
   with TargetCPUComboBox do begin
     with Items do begin
       Add(''); //('+rsiwpDefault+')');
-      Add('a64');
+      Add('aarch64');
       Add('arm');
       Add('i386');
       Add('m68k');
