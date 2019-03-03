@@ -35,8 +35,8 @@ const
   ProjDescNameApplication = 'Application';
   ProjDescNameRaspberryPiProgram = 'Raspberry Pi (A/B/A+/B+) Application'; //Ultibo
   ProjDescNameRaspberryPi2Program = 'Raspberry Pi 2B Application'; //Ultibo
-  ProjDescNameRaspberryPi3Program = 'Raspberry Pi 3B Application'; //Ultibo
-  ProjDescNameRaspberryPiZeroProgram = 'Raspberry Pi Zero Application'; //Ultibo
+  ProjDescNameRaspberryPi3Program = 'Raspberry Pi 3B/3B+/3A+ Application'; //Ultibo
+  ProjDescNameRaspberryPiZeroProgram = 'Raspberry Pi Zero/ZeroW Application'; //Ultibo
   ProjDescNameQEMUVersatilePBProgram = 'QEMU VersatilePB Application'; //Ultibo
   ProjDescNameSimpleProgram = 'Simple Program';
   ProjDescNameProgram = 'Program';
