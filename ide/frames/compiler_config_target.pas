@@ -295,8 +295,8 @@ begin
     // Get target controller
     aTargetController := CaptionToController(TargetControllerComboBox.Text); 
     
-    // Check for RPI2 or RPI3
-    if (aTargetController='RPI2B') or (aTargetController='RPI3B') then
+    // Check for RPI2, RPI3 or RPI4
+    if (aTargetController='RPI2B') or (aTargetController='RPI3A') or (aTargetController='RPI3B') or (aTargetController='RPI4B') then
       TargetProcComboBox.ItemIndex := TargetProcComboBox.Items.IndexOf('ARMV7A') 
     else  
       TargetProcComboBox.ItemIndex := TargetProcComboBox.Items.IndexOf('ARMV6');

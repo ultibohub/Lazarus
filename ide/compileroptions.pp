@@ -2831,10 +2831,15 @@ begin
       {Raspberry Pi 2B}
       Switches:=Switches + ' @' + ExtractFilePath(FPCompilerFilename) + 'RPI2.CFG';
      end
-    else if Uppercase(TargetController) = 'RPI3B' then
+    else if (Uppercase(TargetController) = 'RPI3A') or (Uppercase(TargetController) = 'RPI3B') then
      begin
-      {Raspberry Pi 3B}
+      {Raspberry Pi 3B/3B+/3A+}
       Switches:=Switches + ' @' + ExtractFilePath(FPCompilerFilename) + 'RPI3.CFG';
+     end
+    else if Uppercase(TargetController) = 'RPI4B' then
+     begin
+      {Raspberry Pi 4B}
+      Switches:=Switches + ' @' + ExtractFilePath(FPCompilerFilename) + 'RPI4.CFG';
      end
     else
      begin

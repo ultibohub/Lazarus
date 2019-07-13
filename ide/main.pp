@@ -2553,6 +2553,7 @@ begin
   RegisterProjectDescriptor(TProjectRaspberryPiProgramDescriptor.Create); //Ultibo
   RegisterProjectDescriptor(TProjectRaspberryPi2ProgramDescriptor.Create); //Ultibo
   RegisterProjectDescriptor(TProjectRaspberryPi3ProgramDescriptor.Create); //Ultibo
+  RegisterProjectDescriptor(TProjectRaspberryPi4ProgramDescriptor.Create); //Ultibo
   RegisterProjectDescriptor(TProjectRaspberryPiZeroProgramDescriptor.Create); //Ultibo
   RegisterProjectDescriptor(TProjectQEMUVersatilePBProgramDescriptor.Create); //Ultibo
   RegisterProjectDescriptor(TProjectSimpleProgramDescriptor.Create);

@@ -36,6 +36,7 @@ const
   ProjDescNameRaspberryPiProgram = 'Raspberry Pi (A/B/A+/B+) Application'; //Ultibo
   ProjDescNameRaspberryPi2Program = 'Raspberry Pi 2B Application'; //Ultibo
   ProjDescNameRaspberryPi3Program = 'Raspberry Pi 3B/3B+/3A+ Application'; //Ultibo
+  ProjDescNameRaspberryPi4Program = 'Raspberry Pi 4B Application'; //Ultibo
   ProjDescNameRaspberryPiZeroProgram = 'Raspberry Pi Zero/ZeroW Application'; //Ultibo
   ProjDescNameQEMUVersatilePBProgram = 'QEMU VersatilePB Application'; //Ultibo
   ProjDescNameSimpleProgram = 'Simple Program';
@@ -548,6 +549,7 @@ function ProjectDescriptorApplication: TProjectDescriptor;
 function ProjectDescriptorRaspberryPiProgram: TProjectDescriptor; //Ultibo
 function ProjectDescriptorRaspberryPi2Program: TProjectDescriptor; //Ultibo
 function ProjectDescriptorRaspberryPi3Program: TProjectDescriptor; //Ultibo
+function ProjectDescriptorRaspberryPi4Program: TProjectDescriptor; //Ultibo
 function ProjectDescriptorRaspberryPiZeroProgram: TProjectDescriptor; //Ultibo
 function ProjectDescriptorQEMUVersatilePBProgram: TProjectDescriptor; //Ultibo
 function ProjectDescriptorProgram: TProjectDescriptor;
@@ -693,6 +695,11 @@ end;
 function ProjectDescriptorRaspberryPi3Program: TProjectDescriptor; //Ultibo
 begin
   Result:=ProjectDescriptors.FindByName(ProjDescNameRaspberryPi3Program); //Ultibo
+end;
+
+function ProjectDescriptorRaspberryPi4Program: TProjectDescriptor; //Ultibo
+begin
+  Result:=ProjectDescriptors.FindByName(ProjDescNameRaspberryPi4Program); //Ultibo
 end;
 
 function ProjectDescriptorRaspberryPiZeroProgram: TProjectDescriptor; //Ultibo
