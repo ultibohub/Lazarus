@@ -64,12 +64,13 @@ uses
   {$I staticpackages.inc}
   {$ELSE}
   anchordockingdsgn,
+  jcfidelazarus, 
   {$ENDIF}
   {$IFDEF BigIDE}
     allsyneditdsgn, RunTimeTypeInfoControls, Printer4Lazarus, Printers4LazIDE,
     LeakView, MemDSLaz, SDFLaz, InstantFPCLaz, ExternHelp,
     TurboPowerIPro, TurboPowerIProDsgn,
-    jcfidelazarus, chmhelppkg,
+    chmhelppkg,
     FPCUnitTestRunner, FPCUnitIDE, ProjTemplates, TAChartLazarusPkg,
     TodoListLaz, DateTimeCtrls, SQLDBLaz, DBFLaz, pascalscript, EditorMacroScript,
   {$ENDIF}

@@ -33,6 +33,7 @@ bigide:
 	$(MAKE) -C synedit/design
 	$(MAKE) -C anchordocking
 	$(MAKE) -C anchordocking/design
+	$(MAKE) -C jcf2/IdePlugin/lazarus
 
 all: bigide
 
@@ -47,6 +48,7 @@ clean:
 	$(MAKE) -C synedit/design clean
 	$(MAKE) -C anchordocking clean
 	$(MAKE) -C anchordocking/design clean
+	$(MAKE) -C jcf2/IdePlugin/lazarus clean
 
 cleanall: clean
 
@@ -61,4 +63,5 @@ distclean:
 	$(MAKE) -C synedit/design distclean
 	$(MAKE) -C anchordocking distclean
 	$(MAKE) -C anchordocking/design distclean
+	$(MAKE) -C jcf2/IdePlugin/lazarus distclean
 
