@@ -2826,24 +2826,29 @@ begin
       {QEMU VersatilePB}
       Switches:=Switches + ' @' + ExtractFilePath(FPCompilerFilename) + 'QEMUVPB.CFG';
      end
-    else if Uppercase(TargetController) = 'RPI2B' then
+    else if (Uppercase(TargetController) = 'RPI2B') or
+            (Uppercase(TargetController) = 'QEMURPI2B') then
      begin
-      {Raspberry Pi 2B}
+      {Raspberry Pi 2B/QEMU}
       Switches:=Switches + ' @' + ExtractFilePath(FPCompilerFilename) + 'RPI2.CFG';
      end
-    else if (Uppercase(TargetController) = 'RPI3A') or (Uppercase(TargetController) = 'RPI3B') then
+    else if (Uppercase(TargetController) = 'RPI3A') or
+            (Uppercase(TargetController) = 'RPI3B') or
+            (Uppercase(TargetController) = 'QEMURPI3A') or
+            (Uppercase(TargetController) = 'QEMURPI3B') then
      begin
-      {Raspberry Pi 3B/3B+/3A+}
+      {Raspberry Pi 3B/3B+/3A+/QEMU}
       Switches:=Switches + ' @' + ExtractFilePath(FPCompilerFilename) + 'RPI3.CFG';
      end
-    else if (Uppercase(TargetController) = 'RPI4B') or (Uppercase(TargetController) = 'RPI400') then
+    else if (Uppercase(TargetController) = 'RPI4B') or
+            (Uppercase(TargetController) = 'RPI400') then
      begin
       {Raspberry Pi 4B/400}
       Switches:=Switches + ' @' + ExtractFilePath(FPCompilerFilename) + 'RPI4.CFG';
      end
     else
      begin
-      {Raspberry Pi A/B/A+/B+/Zero}
+      {Raspberry Pi A/B/A+/B+/Zero/QEMU}
       Switches:=Switches + ' @' + ExtractFilePath(FPCompilerFilename) + 'RPI.CFG';
      end;
    end; //Ultibo

@@ -193,7 +193,7 @@ const
       'sparc',
       'x86_64'
     );
-  FPCControllerNames: array[1..9] of shortstring =(  //Ultibo
+  FPCControllerNames: array[1..14] of shortstring =(  //Ultibo
       'RPIA',
       'RPIB',
       'RPIZERO',
@@ -202,7 +202,12 @@ const
       'RPI3B',
       'RPI4B',
       'RPI400',
-      'QEMUVPB'
+      'QEMUVPB',
+      'QEMURPIA',
+      'QEMURPIZERO',
+      'QEMURPI2B',
+      'QEMURPI3A',
+      'QEMURPI3B'
     );  
   FPCSyntaxModes: array[1..6] of shortstring = (
     'FPC', 'ObjFPC', 'Delphi', 'TP', 'MacPas', 'ISO'

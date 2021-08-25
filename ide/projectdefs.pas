@@ -1580,6 +1580,9 @@ begin
     +'{  required and create new units by selecting File, New Unit from the menu.    }'+LineEnding 
     +'{                                                                              }'+LineEnding 
     +'{  To compile your program select Run, Compile (or Run, Build) from the menu.  }'+LineEnding 
+    +'{                                                                              }'+LineEnding 
+    +'{  To build for the QEMU target select Project, Project Options ... from the   }'+LineEnding 
+    +'{  menu, go to Config and Target and choose the appropriate Target Controller. }'+LineEnding 
     +LineEnding
     +'uses'+LineEnding
     +'  RaspberryPi,'+LineEnding
@@ -1661,6 +1664,9 @@ begin
     +'{  required and create new units by selecting File, New Unit from the menu.    }'+LineEnding 
     +'{                                                                              }'+LineEnding 
     +'{  To compile your program select Run, Compile (or Run, Build) from the menu.  }'+LineEnding 
+    +'{                                                                              }'+LineEnding 
+    +'{  To build for the QEMU target select Project, Project Options ... from the   }'+LineEnding 
+    +'{  menu, go to Config and Target and choose the appropriate Target Controller. }'+LineEnding 
     +LineEnding
     +'uses'+LineEnding
     +'  RaspberryPi2,'+LineEnding
@@ -1742,6 +1748,9 @@ begin
     +'{  required and create new units by selecting File, New Unit from the menu.    }'+LineEnding 
     +'{                                                                              }'+LineEnding 
     +'{  To compile your program select Run, Compile (or Run, Build) from the menu.  }'+LineEnding 
+    +'{                                                                              }'+LineEnding 
+    +'{  To build for the QEMU target select Project, Project Options ... from the   }'+LineEnding 
+    +'{  menu, go to Config and Target and choose the appropriate Target Controller. }'+LineEnding 
     +LineEnding
     +'uses'+LineEnding
     +'  RaspberryPi3,'+LineEnding
@@ -1823,6 +1832,9 @@ begin
     +'{  required and create new units by selecting File, New Unit from the menu.    }'+LineEnding 
     +'{                                                                              }'+LineEnding 
     +'{  To compile your program select Run, Compile (or Run, Build) from the menu.  }'+LineEnding 
+//    +'{                                                                              }'+LineEnding 
+//    +'{  To build for the QEMU target select Project, Project Options ... from the   }'+LineEnding 
+//    +'{  menu, go to Config and Target and choose the appropriate Target Controller. }'+LineEnding 
     +LineEnding
     +'uses'+LineEnding
     +'  RaspberryPi4,'+LineEnding
@@ -1904,6 +1916,9 @@ begin
     +'{  required and create new units by selecting File, New Unit from the menu.    }'+LineEnding 
     +'{                                                                              }'+LineEnding 
     +'{  To compile your program select Run, Compile (or Run, Build) from the menu.  }'+LineEnding 
+    +'{                                                                              }'+LineEnding 
+    +'{  To build for the QEMU target select Project, Project Options ... from the   }'+LineEnding 
+    +'{  menu, go to Config and Target and choose the appropriate Target Controller. }'+LineEnding 
     +LineEnding
     +'uses'+LineEnding
     +'  RaspberryPi,'+LineEnding

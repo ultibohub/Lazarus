@@ -295,8 +295,15 @@ begin
     // Get target controller
     aTargetController := CaptionToController(TargetControllerComboBox.Text); 
     
-    // Check for RPI2, RPI3 or RPI4
-    if (aTargetController='RPI2B') or (aTargetController='RPI3A') or (aTargetController='RPI3B') or (aTargetController='RPI4B') or (aTargetController='RPI400') then
+    // Check for RPI2, RPI3, RPI4 or QEMU
+    if (aTargetController='RPI2B') or 
+       (aTargetController='RPI3A') or
+       (aTargetController='RPI3B') or
+       (aTargetController='RPI4B') or
+       (aTargetController='RPI400') or
+       (aTargetController='QEMURPI2B') or
+       (aTargetController='QEMURPI3A') or
+       (aTargetController='QEMURPI3B') then
       TargetProcComboBox.ItemIndex := TargetProcComboBox.Items.IndexOf('ARMV7A') 
     else  
       TargetProcComboBox.ItemIndex := TargetProcComboBox.Items.IndexOf('ARMV6');

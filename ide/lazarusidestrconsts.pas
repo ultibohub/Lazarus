@@ -4861,11 +4861,11 @@ resourcestring
   lisLibraryProgramDescriptor = 'A Free Pascal shared library (.dll under Windows,'
     +' .so under Linux, .dylib under MacOS X).';
 
-  lisRaspberryPiProgramProgramDescriptor = 'An application with Raspberry Pi A/B/A+/B+ specific settings.'; //Ultibo
-  lisRaspberryPi2ProgramProgramDescriptor = 'An application with Raspberry Pi 2B specific settings.'; //Ultibo
-  lisRaspberryPi3ProgramProgramDescriptor = 'An application with Raspberry Pi 3B/3B+/3A+ specific settings.'; //Ultibo
+  lisRaspberryPiProgramProgramDescriptor = 'An application with Raspberry Pi A/B/A+/B+ or QEMU specific settings.'; //Ultibo
+  lisRaspberryPi2ProgramProgramDescriptor = 'An application with Raspberry Pi 2B or QEMU specific settings.'; //Ultibo
+  lisRaspberryPi3ProgramProgramDescriptor = 'An application with Raspberry Pi 3B/3B+/3A+ or QEMU specific settings.'; //Ultibo
   lisRaspberryPi4ProgramProgramDescriptor = 'An application with Raspberry Pi 4B/400 specific settings.'; //Ultibo
-  lisRaspberryPiZeroProgramProgramDescriptor = 'An application with Raspberry Pi Zero/ZeroW specific settings.'; //Ultibo
+  lisRaspberryPiZeroProgramProgramDescriptor = 'An application with Raspberry Pi Zero/ZeroW or QEMU specific settings.'; //Ultibo
   lisQEMUVersatilePBProgramProgramDescriptor = 'An application with QEMU VersatilePB specific settings.'; //Ultibo
   
   lisNPCreateANewProject = 'Create a new project';

@@ -2807,10 +2807,10 @@ begin
     itmToolRescanFPCSrcDir.OnClick := @mnuEnvRescanFPCSrcDirClicked;
     itmToolBuildUltiboRTL.OnClick := @mnuToolBuildUltiboRTLClicked; //Ultibo
     itmToolRunInQEMU.OnClick := @mnuToolRunInQEMUClicked; //Ultibo
-    {$IFNDEF Windows}
-    itmToolBuildUltiboRTL.Visible:=False; //Ultibo
-    itmToolRunInQEMU.Visible:=False; //Ultibo
-    {$ENDIF}
+
+    itmToolBuildUltiboRTL.Visible:=FileExistsUTF8(AppendPathDelim(AppendPathDelim(EnvironmentOptions.GetParsedLazarusDirectory) + 'tools') + 'BuildRTL' + GetExecutableExt); //Ultibo
+    itmToolRunInQEMU.Visible:=FileExistsUTF8(AppendPathDelim(AppendPathDelim(EnvironmentOptions.GetParsedLazarusDirectory) + 'tools') + 'QEMULauncher' + GetExecutableExt); //Ultibo
+
     itmEnvCodeTemplates.OnClick := @mnuEnvCodeTemplatesClicked;
     itmEnvCodeToolsDefinesEditor.OnClick := @mnuEnvCodeToolsDefinesEditorClicked;
 
@@ -5062,7 +5062,7 @@ begin
   ExternalToolOptions.Title:=lisMenuBuildUltiboRTL;
   ExternalToolOptions.WorkingDirectory:='$(LazarusDir)tools';
   ExternalToolOptions.CmdLineParams:='';
-  ExternalToolOptions.Executable:='$(LazarusDir)tools\BuildRTL.exe';
+  ExternalToolOptions.Executable:=AppendPathDelim('$(LazarusDir)tools') + 'BuildRTL' + GetExecutableExt;
  
   RunExternalTool(ExternalToolOptions);
  finally
@@ -5113,7 +5113,7 @@ begin
   ExternalToolOptions.WorkingDirectory:='$(LazarusDir)tools';
   ExternalToolOptions.CmdLineParams:=GetCmdLineParams;
   if Length(ExternalToolOptions.CmdLineParams) = 0 then Exit;
-  ExternalToolOptions.Executable:='$(LazarusDir)tools\QEMULauncher.exe';
+  ExternalToolOptions.Executable:=AppendPathDelim('$(LazarusDir)tools') + 'QEMULauncher' + GetExecutableExt;
  
   RunExternalTool(ExternalToolOptions);
  finally
