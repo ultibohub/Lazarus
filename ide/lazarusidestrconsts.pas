@@ -4839,9 +4839,9 @@ resourcestring
   lisTabOrderSortHint = 'Calculate tab order for controls by their X- and Y- positions';
   lisTabOrderConfirmSort = 'Sort tab orders of all child controls of "%s" by their positions?';
 
-  lisRaspberryPiProgram = 'Raspberry Pi (A/B/A+/B+) Application'; //Ultibo
+  lisRaspberryPiProgram = 'Raspberry Pi A/B/A+/B+ Application'; //Ultibo
   lisRaspberryPi2Program = 'Raspberry Pi 2B Application'; //Ultibo
-  lisRaspberryPi3Program = 'Raspberry Pi 3B/3B+/3A+ Application'; //Ultibo
+  lisRaspberryPi3Program = 'Raspberry Pi 3B/3B+/3A+/Zero2W Application'; //Ultibo
   lisRaspberryPi4Program = 'Raspberry Pi 4B/400 Application'; //Ultibo
   lisRaspberryPiZeroProgram = 'Raspberry Pi Zero/ZeroW Application'; //Ultibo
   lisQEMUVersatilePBProgram = 'QEMU VersatilePB Application'; //Ultibo
@@ -4863,7 +4863,7 @@ resourcestring
 
   lisRaspberryPiProgramProgramDescriptor = 'An application with Raspberry Pi A/B/A+/B+ or QEMU specific settings.'; //Ultibo
   lisRaspberryPi2ProgramProgramDescriptor = 'An application with Raspberry Pi 2B or QEMU specific settings.'; //Ultibo
-  lisRaspberryPi3ProgramProgramDescriptor = 'An application with Raspberry Pi 3B/3B+/3A+ or QEMU specific settings.'; //Ultibo
+  lisRaspberryPi3ProgramProgramDescriptor = 'An application with Raspberry Pi 3B/3B+/3A+/Zero2W or QEMU specific settings.'; //Ultibo
   lisRaspberryPi4ProgramProgramDescriptor = 'An application with Raspberry Pi 4B/400 specific settings.'; //Ultibo
   lisRaspberryPiZeroProgramProgramDescriptor = 'An application with Raspberry Pi Zero/ZeroW or QEMU specific settings.'; //Ultibo
   lisQEMUVersatilePBProgramProgramDescriptor = 'An application with QEMU VersatilePB specific settings.'; //Ultibo

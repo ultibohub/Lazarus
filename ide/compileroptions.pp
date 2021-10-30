@@ -2834,10 +2834,11 @@ begin
      end
     else if (Uppercase(TargetController) = 'RPI3A') or
             (Uppercase(TargetController) = 'RPI3B') or
+            (Uppercase(TargetController) = 'RPIZERO2W') or
             (Uppercase(TargetController) = 'QEMURPI3A') or
             (Uppercase(TargetController) = 'QEMURPI3B') then
      begin
-      {Raspberry Pi 3B/3B+/3A+/QEMU}
+      {Raspberry Pi 3B/3B+/3A+/Zero2W/QEMU}
       Switches:=Switches + ' @' + ExtractFilePath(FPCompilerFilename) + 'RPI3.CFG';
      end
     else if (Uppercase(TargetController) = 'RPI4B') or

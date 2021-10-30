@@ -295,12 +295,13 @@ begin
     // Get target controller
     aTargetController := CaptionToController(TargetControllerComboBox.Text); 
     
-    // Check for RPI2, RPI3, RPI4 or QEMU
+    // Check for RPI2, RPI3, RPI4, RPIZERO2W or QEMU
     if (aTargetController='RPI2B') or 
        (aTargetController='RPI3A') or
        (aTargetController='RPI3B') or
        (aTargetController='RPI4B') or
        (aTargetController='RPI400') or
+       (aTargetController='RPIZERO2W') or
        (aTargetController='QEMURPI2B') or
        (aTargetController='QEMURPI3A') or
        (aTargetController='QEMURPI3B') then
