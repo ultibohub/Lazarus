@@ -1806,7 +1806,7 @@ begin
 
   { CodeGeneration }
   p:=Path+'CodeGeneration/';
-  aXMLConfig.SetDeleteValue(p+'SmartLinkUnit/Value', SmartLinkUnit,false);
+  aXMLConfig.SetDeleteValue(p+'SmartLinkUnit/Value', SmartLinkUnit,true); //Ultibo
   aXMLConfig.SetDeleteValue(p+'RelocatableUnit/Value', RelocatableUnit,false);
   aXMLConfig.SetDeleteValue(p+'Checks/IOChecks/Value', IOChecks,false);
   aXMLConfig.SetDeleteValue(p+'Checks/RangeChecks/Value', RangeChecks,false);
@@ -1820,26 +1820,26 @@ begin
   aXMLConfig.SetDeleteValue(p+'TargetController/Value', TargetController,''); //Ultibo
   aXMLConfig.SetDeleteValue(p+'TargetCPU/Value', TargetCPU,'');
   aXMLConfig.SetDeleteValue(p+'TargetOS/Value', TargetOS,'');
-  aXMLConfig.SetDeleteValue(p+'Optimizations/OptimizationLevel/Value', OptimizationLevel,1);
+  aXMLConfig.SetDeleteValue(p+'Optimizations/OptimizationLevel/Value', OptimizationLevel,2); //Ultibo
   aXMLConfig.SetDeleteValue(p+'Optimizations/VariablesInRegisters/Value', VariablesInRegisters,false);
   aXMLConfig.SetDeleteValue(p+'Optimizations/UncertainOptimizations/Value', UncertainOptimizations,false);
   aXMLConfig.SetDeleteValue(p+'SmallerCode/Value', SmallerCode, false);
 
   { Linking }
   p:=Path+'Linking/';
-  aXMLConfig.SetDeleteValue(p+'Debugging/GenerateDebugInfo/Value', GenerateDebugInfo, True); // Default = True, since version 11 (was False before)
+  aXMLConfig.SetDeleteValue(p+'Debugging/GenerateDebugInfo/Value', GenerateDebugInfo, False); // Default = True, since version 11 (was False before) //Ultibo
   s:='';
   WriteStr(s, DebugInfoType);
   aXMLConfig.SetDeleteValue(p+'Debugging/DebugInfoType/Value', s, 'dsAuto');
   aXMLConfig.DeletePath(p+'Debugging/GenerateDwarf'); // old deprecated setting
-  aXMLConfig.SetDeleteValue(p+'Debugging/UseLineInfoUnit/Value', UseLineInfoUnit,true);
+  aXMLConfig.SetDeleteValue(p+'Debugging/UseLineInfoUnit/Value', UseLineInfoUnit,false); //Ultibo
   aXMLConfig.SetDeleteValue(p+'Debugging/UseHeaptrc/Value', UseHeaptrc,false);
   aXMLConfig.SetDeleteValue(p+'Debugging/TrashVariables/Value', TrashVariables,false);
   aXMLConfig.SetDeleteValue(p+'Debugging/UseValgrind/Value', UseValgrind,false);
   aXMLConfig.SetDeleteValue(p+'Debugging/GenGProfCode/Value', GenGProfCode,false);
   aXMLConfig.SetDeleteValue(p+'Debugging/StripSymbols/Value', StripSymbols,false);
   aXMLConfig.SetDeleteValue(p+'Debugging/UseExternalDbgSyms/Value', UseExternalDbgSyms,false);
-  aXMLConfig.SetDeleteValue(p+'LinkSmart/Value', LinkSmart,false);
+  aXMLConfig.SetDeleteValue(p+'LinkSmart/Value', LinkSmart,true); //Ultibo
   aXMLConfig.SetDeleteValue(p+'Options/PassLinkerOptions/Value', PassLinkerOptions,false);
   aXMLConfig.SetDeleteValue(p+'Options/LinkerOptions/Value',
                                f(LineBreaksToSystemLineBreaks(LinkerOptions)),'');
