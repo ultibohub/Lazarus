@@ -5169,14 +5169,15 @@ begin
 end;
 
 procedure TDefineTree.ConsistencyCheck;
-var
-  CurResult: LongInt;
+//var
+//  CurResult: LongInt;
 begin
   if FFirstDefineTemplate<>nil then
     FFirstDefineTemplate.ConsistencyCheck;
-  CurResult:=FCache.ConsistencyCheck;
-  if CurResult<>0 then
-    RaiseCatchableException(IntToStr(CurResult));
+  FCache.ConsistencyCheck;
+  //CurResult:=FCache.ConsistencyCheck;
+  //if CurResult<>0 then
+  //  RaiseCatchableException(IntToStr(CurResult));
 end;
 
 procedure TDefineTree.CalcMemSize(Stats: TCTMemStats);

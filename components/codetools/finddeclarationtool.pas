@@ -11181,12 +11181,14 @@ begin
     ANodeCache:=ANodeCache.Next;
   end;
   if FDependentCodeTools<>nil then begin
-    if FDependentCodeTools.ConsistencyCheck<>0 then
-      raise Exception.Create('');
+    FDependentCodeTools.ConsistencyCheck;
+    //if FDependentCodeTools.ConsistencyCheck<>0 then
+    //  raise Exception.Create('');
   end;
   if FDependsOnCodeTools<>nil then begin
-    if FDependsOnCodeTools.ConsistencyCheck<>0 then
-      raise Exception.Create('');
+    FDependsOnCodeTools.ConsistencyCheck;
+    //if FDependsOnCodeTools.ConsistencyCheck<>0 then
+    //  raise Exception.Create('');
   end;
 end;
 

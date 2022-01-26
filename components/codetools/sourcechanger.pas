@@ -924,12 +924,13 @@ begin
 end;
 
 procedure TSourceChangeCache.ConsistencyCheck;
-var
-  CurResult: LongInt;
+//var
+//  CurResult: LongInt;
 begin
-  CurResult:=FEntries.ConsistencyCheck;
-  if CurResult<>0 then
-    RaiseCatchableException(IntToStr(CurResult));
+  FEntries.ConsistencyCheck;
+  //CurResult:=FEntries.ConsistencyCheck;
+  //if CurResult<>0 then
+  //  RaiseCatchableException(IntToStr(CurResult));
   BeautifyCodeOptions.ConsistencyCheck;
 end;
 

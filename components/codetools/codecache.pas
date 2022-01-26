@@ -1168,14 +1168,16 @@ end;
 procedure TCodeCache.ConsistencyCheck;
 // 0 = ok
 var ANode: TAVLTreeNode;
-  CurResult: LongInt;
+//  CurResult: LongInt;
 begin
-  CurResult:=FItems.ConsistencyCheck;
-  if CurResult<>0 then
-    RaiseCatchableException(IntToStr(CurResult));
-  CurResult:=FIncludeLinks.ConsistencyCheck;
-  if CurResult<>0 then
-    RaiseCatchableException(IntToStr(CurResult));
+  FItems.ConsistencyCheck;
+  //CurResult:=FItems.ConsistencyCheck;
+  //if CurResult<>0 then
+  //  RaiseCatchableException(IntToStr(CurResult));
+  FIncludeLinks.ConsistencyCheck;
+  //CurResult:=FIncludeLinks.ConsistencyCheck;
+  //if CurResult<>0 then
+  //  RaiseCatchableException(IntToStr(CurResult));
   ANode:=FItems.FindLowest;
   while ANode<>nil do begin
     if ANode.Data=nil then

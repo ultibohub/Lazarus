@@ -6227,8 +6227,8 @@ begin
 end;
 
 procedure TCodeToolManager.ConsistencyCheck;
-var
-  CurResult: LongInt;
+//var
+//  CurResult: LongInt;
 begin
   if FCurCodeTool<>nil then begin
     FCurCodeTool.ConsistencyCheck;
@@ -6238,12 +6238,14 @@ begin
   SourceCache.ConsistencyCheck;
   GlobalValues.ConsistencyCheck;
   SourceChangeCache.ConsistencyCheck;
-  CurResult:=FPascalTools.ConsistencyCheck;
-  if CurResult<>0 then
-    RaiseCatchableException(IntToStr(CurResult));
-  CurResult:=FDirectivesTools.ConsistencyCheck;
-  if CurResult<>0 then
-    RaiseCatchableException(IntToStr(CurResult));
+  FPascalTools.ConsistencyCheck;
+  //CurResult:=FPascalTools.ConsistencyCheck;
+  //if CurResult<>0 then
+  //  RaiseCatchableException(IntToStr(CurResult));
+  FDirectivesTools.ConsistencyCheck;
+  //CurResult:=FDirectivesTools.ConsistencyCheck;
+  //if CurResult<>0 then
+  //  RaiseCatchableException(IntToStr(CurResult));
 end;
 
 procedure TCodeToolManager.WriteDebugReport(WriteTool,

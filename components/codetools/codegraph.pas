@@ -921,10 +921,12 @@ begin
     e('');
   if Edges=nil then
     e('');
-  if Nodes.ConsistencyCheck<>0 then
-    e('');
-  if Edges.ConsistencyCheck<>0 then
-    e('');
+  Nodes.ConsistencyCheck;
+  //if Nodes.ConsistencyCheck<>0 then
+  //  e('');
+  Edges.ConsistencyCheck;
+  //if Edges.ConsistencyCheck<>0 then
+  //  e('');
   if AVLTreeHasDoubles(Nodes)<>nil then
     e('');
   if AVLTreeHasDoubles(Edges)<>nil then
@@ -934,8 +936,9 @@ begin
   while AVLNode<>nil do begin
     GraphNode:=TCodeGraphNode(AVLNode.Data);
     if GraphNode.InTree<>nil then begin
-      if GraphNode.InTree.ConsistencyCheck<>0 then
-        e('');
+      GraphNode.InTree.ConsistencyCheck;
+      //if GraphNode.InTree.ConsistencyCheck<>0 then
+      //  e('');
       if AVLTreeHasDoubles(GraphNode.InTree)<>nil then
         e('');
       EdgeAVLNode:=GraphNode.InTree.FindLowest;
@@ -949,8 +952,9 @@ begin
       end;
     end;
     if GraphNode.OutTree<>nil then begin
-      if GraphNode.OutTree.ConsistencyCheck<>0 then
-        e('');
+      GraphNode.OutTree.ConsistencyCheck;
+      //if GraphNode.OutTree.ConsistencyCheck<>0 then
+      //  e('');
       if AVLTreeHasDoubles(GraphNode.OutTree)<>nil then
         e('');
       EdgeAVLNode:=GraphNode.OutTree.FindLowest;

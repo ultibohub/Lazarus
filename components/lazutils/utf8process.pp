@@ -1,92 +1,37 @@
 {
- /***************************************************************************
-                               UTF8Process.pp
-                               ---------------
-                   Initial Revision  : Tue Dec 06 09:00:00 CET 2005
-
-
- ***************************************************************************/
-
  *****************************************************************************
-  This file is part of the Lazarus Component Library (LCL)
+  This file is part of LazUtils.
 
   See the file COPYING.modifiedLGPL.txt, included in this distribution,
   for details about the license.
  *****************************************************************************
+
+ Initial Revision  : Tue Dec 06 09:00:00 CET 2005
 }
 
 unit UTF8Process;
 
 {$mode objfpc}{$H+}
 
-{$IF FPC_FULLVERSION<20701}
-  {$DEFINE UseOldTProcess}
-{$ENDIF}
-
-{$IFNDEF UseOldTProcess}
-  {$IFDEF MSWINDOWS}
-    {$DEFINE UseTProcessW}
-  {$ELSE}
-    {$DEFINE UseTProcessAlias}
-  {$ENDIF}
-{$ENDIF}
-
-
 interface
 
 uses
   Classes, SysUtils, Process,
-  {$IF defined(UseSeparateTProcessW) or defined(UseTProcessW)}
-  pipes,
-  {$ENDIF}
   FileUtil, LazFileUtils, LazUTF8, LazUtilsStrConsts;
 
-  {$IFDEF UseOldTProcess}
-type
-  { TProcessUTF8 }
-
-  TProcessUTF8 = class(TProcess)
-  private
-    FApplicationNameUTF8: string;
-    FCommandLineUTF8: string;
-    FConsoleTitleUTF8: string;
-    FCurrentDirectoryUTF8: string;
-    FDesktopUTF8: string;
-    FEnvironmentUTF8: TStrings;
-    FExecutableUTF8: string;
-    FParametersUTF8: TStrings;
-    procedure SetApplicationNameUTF8(const AValue: string);
-    procedure SetCommandLineUTF8(const AValue: string);
-    procedure SetConsoleTitleUTF8(const AValue: string);
-    procedure SetCurrentDirectoryUTF8(const AValue: string);
-    procedure SetDesktopUTF8(const AValue: string);
-    procedure SetEnvironmentUTF8(const AValue: TStrings);
-    procedure SetExecutableUTF8(AValue: string);
-    procedure SetParametersUTF8(AValue: TStrings);
-    procedure UpdateEnvironment;
-  public
-    constructor Create(AOwner: TComponent); override;
-    destructor Destroy; override;
-    procedure Execute; override;
-  published
-    property ApplicationName: string read FApplicationNameUTF8 write SetApplicationNameUTF8;
-    property CommandLine: string read FCommandLineUTF8 write SetCommandLineUTF8;
-    property ConsoleTitle: string read FConsoleTitleUTF8 write SetConsoleTitleUTF8;
-    property CurrentDirectory: string read FCurrentDirectoryUTF8 write SetCurrentDirectoryUTF8;
-    property Desktop: string read FDesktopUTF8 write SetDesktopUTF8;
-    property Environment: TStrings read FEnvironmentUTF8 write SetEnvironmentUTF8;
-    property Executable: string read FExecutableUTF8 Write SetExecutableUTF8;
-    property Parameters: TStrings read FParametersUTF8 write SetParametersUTF8;
-  end;
+  {$IF DEFINED(MSWINDOWS) AND NOT DECLARED(poDetached)} // we need to work around the poNoConsole->poDetached change
+    // more info: issue #32055, #35991; FPC r45228, https://forum.lazarus.freepascal.org/index.php/topic,49631.0
+    {$DEFINE UseTProcessW}
   {$ENDIF}
 
-  {$IFDEF UseTProcessW}
+{ TProcessUTF8 }
+
+{$IFDEF UseTProcessW}
+{$Optimization -ORDERFIELDS }
 const
   SNoCommandLine        = 'Cannot execute empty command-line';
   SErrCannotExecute     = 'Failed to execute %s : %d';
 type
-  { TProcessUTF8 }
-
   TProcessUTF8 = class(TProcess)
   protected
     procedure SetProcessHandle(aProcessHandle : THandle);
@@ -94,16 +39,19 @@ type
     procedure SetProcessID(aProcessID : Integer);
   public
     procedure Execute; override;
+    procedure ParseCmdLine(const CmdLine: string; ReadBackslash: boolean = false);
   end;
-  {$ENDIF}
 
-  {$IFDEF UseTProcessAlias}
+{$ELSE}
+
 type
   TProcessUTF8 = class(TProcess)
+  public
+    procedure ParseCmdLine(const CmdLine: string; ReadBackslash: boolean = false);
   end;
-  {$ENDIF}
+{$ENDIF}
 
-procedure RunCmdFromPath(ProgramFilename, CmdLineParameters: string);
+procedure RunCmdFromPath(const ProgramFilename, CmdLineParameters: string);
 function FindFilenameOfCmd(ProgramFilename: string): string;
 
 function GetSystemThreadCount: integer; // guess number of cores
@@ -113,7 +61,11 @@ procedure Register;
 implementation
 
 {$IF defined(windows)}
-uses Windows;
+uses Windows
+  {$IFDEF UseTProcessW}
+  ,pipes
+  {$ENDIF}
+;
 {$ELSEIF defined(freebsd) or defined(darwin)}
 uses ctypes, sysctl;
 {$ELSEIF defined(linux)}
@@ -167,7 +119,11 @@ begin
   mib[0] := CTL_HW;
   mib[1] := HW_NCPU;
   len := sizeof(t);
+  {$if FPC_FULLVERSION >= 30101}
+  fpsysctl(@mib, 2, @t, @len, Nil, 0);
+  {$else}
   fpsysctl(pchar(@mib), 2, @t, @len, Nil, 0);
+  {$endif}
   Result:=t;
 end;
 {$ELSEIF defined(linux)}
@@ -199,33 +155,32 @@ end;
 
 // Runs a short command which should point to an executable in
 // the environment PATH
-// For example: ProgramFilename=ls CmdLineParameters=-l /home
-// Will locate and execute the file /bin/ls
+// For example: ProgramFilename='ls' CmdLineParameters='-l /home'
+// Will locate and execute the file '/bin/ls'
 // If the command isn't found, an exception will be raised
-procedure RunCmdFromPath(ProgramFilename, CmdLineParameters: string);
+procedure RunCmdFromPath(const ProgramFilename, CmdLineParameters: string);
 var
-  OldProgramFilename: String;
+  NewProgramFilename: String;
   BrowserProcess: TProcessUTF8;
 begin
-  OldProgramFilename:=ProgramFilename;
-  ProgramFilename:=FindFilenameOfCmd(ProgramFilename);
+  NewProgramFilename:=FindFilenameOfCmd(ProgramFilename);
 
-  if ProgramFilename='' then
-    raise EFOpenError.Create(Format(lrsProgramFileNotFound, [OldProgramFilename]));
-  if not FileIsExecutable(ProgramFilename) then
-    raise EFOpenError.Create(Format(lrsCanNotExecute, [ProgramFilename]));
+  if NewProgramFilename='' then
+    raise EFOpenError.Create(Format(lrsProgramFileNotFound, [ProgramFilename]));
+  if not FileIsExecutable(NewProgramFilename) then
+    raise EFOpenError.Create(Format(lrsCanNotExecute, [NewProgramFilename]));
 
   // run
   BrowserProcess := TProcessUTF8.Create(nil);
   try
     BrowserProcess.InheritHandles:=false;
     // Encloses the executable with "" if its name has spaces
-    if Pos(' ',ProgramFilename)>0 then
-      ProgramFilename:='"'+ProgramFilename+'"';
+    if Pos(' ',NewProgramFilename)>0 then
+      NewProgramFilename:='"'+NewProgramFilename+'"';
 
     {$Push}
     {$WARN SYMBOL_DEPRECATED OFF}
-    BrowserProcess.CommandLine := ProgramFilename;
+    BrowserProcess.CommandLine := NewProgramFilename;
     if CmdLineParameters<>'' then
       BrowserProcess.CommandLine := BrowserProcess.CommandLine + ' ' + CmdLineParameters;
     {$Pop}
@@ -240,121 +195,15 @@ begin
   RegisterComponents('System',[TProcessUTF8]);
 end;
 
-{$IFDEF UseOldTProcess}
-{$WARN SYMBOL_DEPRECATED OFF}
-{ TProcessUTF8 }
-
-procedure TProcessUTF8.SetApplicationNameUTF8(const AValue: string);
-begin
-  if FApplicationNameUTF8=AValue then exit;
-  FApplicationNameUTF8:=AValue;
-  inherited ApplicationName:=UTF8ToSys(FApplicationNameUTF8);
-end;
-
-procedure TProcessUTF8.SetCommandLineUTF8(const AValue: string);
-var
-  Src: TStrings;
-  i: Integer;
-begin
-  if FCommandLineUTF8=AValue then exit;
-  FCommandLineUTF8:=AValue;
-  inherited CommandLine:=UTF8ToSys(FCommandLineUTF8);
-  FExecutableUTF8:=SysToUTF8(inherited Executable);
-  FParametersUTF8.Clear;
-  Src:=inherited Parameters;
-  if Src<>nil then
-    for i:=0 to Src.Count-1 do
-      FParametersUTF8.Add(SysToUTF8(Src[i]));
-end;
-
-procedure TProcessUTF8.SetConsoleTitleUTF8(const AValue: string);
-begin
-  if FConsoleTitleUTF8=AValue then exit;
-  FConsoleTitleUTF8:=AValue;
-  inherited ConsoleTitle:=UTF8ToSys(FConsoleTitleUTF8);
-end;
-
-procedure TProcessUTF8.SetCurrentDirectoryUTF8(const AValue: string);
-begin
-  if FCurrentDirectoryUTF8=AValue then exit;
-  FCurrentDirectoryUTF8:=AValue;
-  inherited CurrentDirectory:=UTF8ToSys(FCurrentDirectoryUTF8);
-end;
-
-procedure TProcessUTF8.SetDesktopUTF8(const AValue: string);
-begin
-  if FDesktopUTF8=AValue then exit;
-  FDesktopUTF8:=AValue;
-  inherited Desktop:=UTF8ToSys(FDesktopUTF8);
-end;
-
-procedure TProcessUTF8.SetEnvironmentUTF8(const AValue: TStrings);
-begin
-  if (FEnvironmentUTF8=AValue)
-  or ((AValue<>nil) and FEnvironmentUTF8.Equals(AValue)) then exit;
-  FEnvironmentUTF8.Assign(AValue);
-end;
-
-procedure TProcessUTF8.SetExecutableUTF8(AValue: string);
-begin
-  if FExecutableUTF8=AValue then Exit;
-  FExecutableUTF8:=AValue;
-  inherited Executable:=UTF8ToSys(FExecutableUTF8);
-end;
-
-procedure TProcessUTF8.SetParametersUTF8(AValue: TStrings);
-begin
-  if (FParametersUTF8=AValue)
-  or ((AValue<>nil) and FParametersUTF8.Equals(AValue)) then exit;
-  FParametersUTF8.Assign(AValue);
-end;
-
-procedure TProcessUTF8.UpdateEnvironment;
-var
-  sl: TStringList;
-  i: Integer;
-begin
-  sl:=TStringList.Create;
-  try
-    for i:=0 to FEnvironmentUTF8.Count-1 do
-      sl.Add(UTF8ToSys(FEnvironmentUTF8[i]));
-    inherited Environment:=sl;
-    sl.Clear;
-    for i:=0 to FParametersUTF8.Count-1 do
-      sl.Add(UTF8ToSys(FParametersUTF8[i]));
-    inherited Parameters:=sl;
-  finally
-    sl.Free;
-  end;
-end;
-
-constructor TProcessUTF8.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-  FEnvironmentUTF8:=TStringList.Create;
-  FParametersUTF8:=TStringList.Create;
-end;
-
-destructor TProcessUTF8.Destroy;
-begin
-  FreeAndNil(FEnvironmentUTF8);
-  FreeAndNil(FParametersUTF8);
-  inherited Destroy;
-end;
-
-procedure TProcessUTF8.Execute;
-begin
-  UpdateEnvironment;
-  inherited Execute;
-end;
-
-{$ENDIF}
-
 {$IFDEF UseTProcessW}
 Const
   PriorityConstants : Array [TProcessPriority] of Cardinal =
                       (HIGH_PRIORITY_CLASS,IDLE_PRIORITY_CLASS,
-                       NORMAL_PRIORITY_CLASS,REALTIME_PRIORITY_CLASS);
+                       NORMAL_PRIORITY_CLASS,REALTIME_PRIORITY_CLASS
+                       {$if (FPC_FULLVERSION >= 30200) and not defined(WinCE)}
+                       ,BELOW_NORMAL_PRIORITY_CLASS,ABOVE_NORMAL_PRIORITY_CLASS
+                       {$endif}
+                       );
 
 function WStrAsUniquePWideChar(var s: UnicodeString): PWideChar; inline;
 begin
@@ -387,8 +236,15 @@ Function GetCreationFlags(P : TProcessUTF8) : Cardinal;
 
 begin
   Result:=CREATE_UNICODE_ENVIRONMENT;
+  {$IF DECLARED(poDetached)}
+  if poNoConsole in P.Options then
+    Result:=Result or CREATE_NO_WINDOW;
+  if poDetached in P.Options then
+    Result:=Result or Detached_Process;
+  {$ELSE}
   if poNoConsole in P.Options then
     Result:=Result or Detached_Process;
+  {$ENDIF}
   if poNewConsole in P.Options then
     Result:=Result or Create_new_console;
   if poNewProcessGroup in P.Options then
@@ -529,51 +385,39 @@ begin
     end;
 end;
 
-type
-  TProcessClassTemplate = class(TComponent)
-  private
-    {%H-}FProcessOptions : TProcessOptions;
-    {%H-}FStartupOptions : TStartupOptions;
-    FProcessID : Integer;
-    {%H-}FTerminalProgram: String;
-    {%H-}FThreadID : Integer;
-    FProcessHandle : Thandle;
-    FThreadHandle : Thandle;
-  end;
-
 { TProcessUTF8 }
+
+type
+  PHandle = ^THandle;
 
 procedure TProcessUTF8.SetProcessHandle(aProcessHandle: THandle);
 var
-  o: TProcessClassTemplate;
+  P: PHandle;
 begin
-  o:=TProcessClassTemplate.Create(nil);
-  PHANDLE(Pointer(Self)+(@o.FProcessHandle-Pointer(o)))^:=aProcessHandle;
+  P := @Self.ProcessHandle;
+  P^ := aProcessHandle;
   if aProcessHandle<>ProcessHandle then
     raise Exception.Create('TProcessUTF8.SetProcessHandle failed');
-  o.Free;
 end;
 
 procedure TProcessUTF8.SetThreadHandle(aThreadHandle: THandle);
 var
-  o: TProcessClassTemplate;
+  P: PHandle;
 begin
-  o:=TProcessClassTemplate.Create(nil);
-  PHANDLE(Pointer(Self)+(@o.FThreadHandle-Pointer(o)))^:=aThreadHandle;
+  P := @Self.ThreadHandle;
+  P^ := aThreadHandle;
   if aThreadHandle<>ThreadHandle then
     raise Exception.Create('TProcessUTF8.SetThreadHandle failed');
-  o.Free;
 end;
 
 procedure TProcessUTF8.SetProcessID(aProcessID: Integer);
 var
-  o: TProcessClassTemplate;
+  P: PInteger;
 begin
-  o:=TProcessClassTemplate.Create(nil);
-  PHANDLE(Pointer(Self)+(@o.FProcessID-Pointer(o)))^:=aProcessID;
+  P := @Self.ProcessID;
+  P^ := aProcessID;
   if aProcessID<>ProcessID then
     raise Exception.Create('TProcessUTF8.SetProcessID failed');
-  o.Free;
 end;
 
 procedure TProcessUTF8.Execute;
@@ -659,5 +503,24 @@ begin
     WaitOnExit;
 end;
 {$ENDIF}
+
+procedure TProcessUTF8.ParseCmdLine(const CmdLine: string; ReadBackslash: boolean);
+var
+  List: TStringList;
+begin
+  List:=TStringList.Create;
+  try
+    SplitCmdLineParams(CmdLine, List, ReadBackslash);
+    if List.Count>0 then begin
+      Executable:=List[0];
+      List.Delete(0);
+    end else begin
+      Executable:='';
+    end;
+    Parameters.Assign(List);
+  finally
+    List.Free;
+  end;
+end;
 
 end.

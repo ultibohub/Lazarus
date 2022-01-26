@@ -1293,7 +1293,7 @@ function TWin32WidgetSet.EnumFontFamiliesEx(DC: HDC; lpLogFont: PLogFont;
 var
   FontName: String;
   LFW: LogFontW;
-  LFA: LogFontA absolute LFW;
+  //LFA: LogFontA absolute LFW;
   Rec: TProcRedirRec;
 begin
   FontName := lpLogFont^.lfFaceName;
@@ -1302,18 +1302,26 @@ begin
   LFW.lfPitchAndFamily := lpLogFont^.lfPitchAndFamily;
   Rec.LParam := LParam;
   Rec.CallBack := CallBack;
-  if UnicodeEnabledOS then
-  begin
-    LFW.lfFaceName := UTF8ToUTF16(FontName);
-    Result := LongInt(Windows.EnumFontFamiliesExW(DC,
-      LFW, windows.FontEnumExProc(@EnumExProcRedirW), Windows.LParam(@Rec), Flags));
-  end
-  else
-  begin
-    LFA.lfFaceName := Utf8ToAnsi(FontName);
-    Result := LongInt(Windows.EnumFontFamiliesExA(DC,
-      LFA, windows.FontEnumExProc(@EnumExProcRedirA), Windows.LParam(@Rec), Flags));
-  end;
+  LFW.lfFaceName := UTF8ToUTF16(FontName);
+  {$if fpc_fullversion < 30101}
+  Result := LongInt(Windows.EnumFontFamiliesExW(DC,
+    LFW, windows.FontEnumExProc(@EnumExProcRedirW), Windows.LParam(@Rec), Flags));
+  {$else}
+  Result := LongInt(Windows.EnumFontFamiliesExW(DC,
+     LFW, windows.FontEnumExProcW(@EnumExProcRedirW), Windows.LParam(@Rec), Flags));
+  {$ifend}
+  //if UnicodeEnabledOS then
+  //begin
+  //  LFW.lfFaceName := UTF8ToUTF16(FontName);
+  //  Result := LongInt(Windows.EnumFontFamiliesExW(DC,
+  //    LFW, windows.FontEnumExProc(@EnumExProcRedirW), Windows.LParam(@Rec), Flags));
+  //end
+  //else
+  //begin
+  //  LFA.lfFaceName := Utf8ToAnsi(FontName);
+  //  Result := LongInt(Windows.EnumFontFamiliesExA(DC,
+  //    LFA, windows.FontEnumExProc(@EnumExProcRedirA), Windows.LParam(@Rec), Flags));
+  //end;
 end;
 
 {------------------------------------------------------------------------------

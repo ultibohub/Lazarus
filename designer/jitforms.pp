@@ -1506,7 +1506,13 @@ begin
 
   // set TypeData (PropCount is the total number of properties, including ancestors)
   NewTypeData^.ClassType:=TClass(NewVMT);
+  {$IFDEF HasVMTParent}
   NewTypeData^.ParentInfo:=AncestorClass.ClassInfo;
+  {$ELSE}
+  GetMem(NewTypeData^.ParentInfoRef,SizeOf(Pointer));
+  NewTypeData^.ParentInfoRef^:=AncestorClass.ClassInfo;
+  {$ENDIF}
+  //NewTypeData^.ParentInfo:=AncestorClass.ClassInfo;
   NewTypeData^.PropCount:=GetTypeData(NewTypeData^.ParentInfo)^.PropCount;
   NewTypeData^.UnitName:=NewUnitName;
   AddedPropCount:=GetTypeDataPropCountAddr(NewTypeData);

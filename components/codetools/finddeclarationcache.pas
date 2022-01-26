@@ -489,8 +489,9 @@ var
   Entry: PInterfaceIdentCacheEntry;
 begin
   if FItems<>nil then begin
-    if FItems.ConsistencyCheck<>0 then
-      RaiseCatchableException('');
+    FItems.ConsistencyCheck;
+    //if FItems.ConsistencyCheck<>0 then
+    //  RaiseCatchableException('');
     Node:=FItems.FindLowest;
     while Node<>nil do begin
       Entry:=PInterfaceIdentCacheEntry(Node.Data);
@@ -1051,8 +1052,9 @@ end;
 procedure TCodeTreeNodeCache.ConsistencyCheck;
 begin
   if (FItems<>nil) then begin
-    if FItems.ConsistencyCheck<>0 then
-      raise Exception.Create('');
+    FItems.ConsistencyCheck;
+    //if FItems.ConsistencyCheck<>0 then
+    //  raise Exception.Create('');
   end;
   if Owner<>nil then begin
     if Owner.Cache<>Self then
